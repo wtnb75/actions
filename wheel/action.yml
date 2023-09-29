@@ -1,0 +1,9 @@
+runs:
+  using: "composite"
+  steps:
+  - name: pip install wheel
+    run: pip install wheel
+    shell: bash
+  - name: build
+    run: python setup.py bdist_wheel
+    shell: bash

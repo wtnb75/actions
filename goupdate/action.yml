@@ -1,0 +1,17 @@
+inputs:
+  ghtoken:
+    required: true
+runs:
+  using: "compisite"
+  steps:
+  - run: go get -u
+  - run: go mod tidy
+  - name: Create PR
+    uses: peter-evans/create-pull-request@v5
+    with:
+      token: ${{ inputs.ghtoken }}
+      commit-message: Update Dependencies
+      title: 'auto update dependencies'
+      add-paths: |
+        go.mod
+        go.sum

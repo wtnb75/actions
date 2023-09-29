@@ -1,0 +1,9 @@
+runs:
+  using: "composite"
+  steps:
+  - name: pip install pytest
+    run: pip install pytest pytest-cov pytest-github-actions-annotate-failures
+    shell: bash
+  - name: test
+    run: PYTHONPATH=. pytest -xs
+    shell: bash

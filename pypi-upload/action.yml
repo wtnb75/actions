@@ -1,0 +1,22 @@
+inputs:
+  username:
+    description: pypi userrname
+    required: true
+    default: ${{ github.actor }}
+  password:
+    description: pypi password
+    required: true
+  repository_url:
+    description: pypi url
+    default: https://upload.pypi.org/legacy/
+runs:
+  using: "composite"
+  steps:
+  - name: deploy to pypi
+    run: twine upload dist/*.whl
+    shell: bash
+    env:
+      TWINE_USERNAME: ${{ inputs.username }}
+      TWINE_PASSWORD: ${{ inputs.password }}
+      TWINE_REPOSITORY_URL: ${{ inputs.repository_url }}
+      TWINE_NON_INTERACTIVE: "1"

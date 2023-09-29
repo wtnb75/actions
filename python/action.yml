@@ -1,0 +1,20 @@
+inputs:
+  pipinstall:
+    required: false
+    description: pip install argument
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/cache@v3
+    with:
+      path: ~/.cache/pip
+      key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+      restore-keys: |
+        ${{ runner.os }}-pip-
+  - name: setup python 3.x
+    uses: actions/setup-python@v3
+    with:
+      python-version: '3.x'
+  - name: pip install
+    if: inputs.pipinstall != ""
+    run: pip install ${{ inputs.pipinstall }}
