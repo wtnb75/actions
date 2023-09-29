@@ -1,0 +1,25 @@
+inputs:
+  flakeext:
+    required: false
+    description: flake8 extensions
+  dirs:
+    required: true
+    description: directories
+  flakeopts:
+    description: flake8 options
+    default: --max-line-length=120
+runs:
+  using: "composite"
+  steps:
+  - name: pip install flake8
+    run: pip install flake8 flake8-github-actions
+    shell: bash
+  - name: pip install flake8-ext
+    run: |
+      for i in ${{ inputs.flakeext }}; do
+         pip install flake8-$$i
+      done
+    shell: bash
+  - name: lint
+    run: flake8 ${{ inputs.flakeopts }} --format github ${{ inputs.dirs }}
+    shell: bash
