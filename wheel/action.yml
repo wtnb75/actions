@@ -10,14 +10,15 @@ inputs:
 outputs:
   filename:
     description: result file name
-    value: ${{ steps.build.outputs.file }}
+    value: ${{ steps.build.wheel-build.file }}
 runs:
   using: "composite"
   steps:
   - name: pip install wheel
     run: pip install wheel
     shell: bash
-  - name: build
+  - id: wheel-build
+    name: build
     run: |
       tmpd=$(mktemp -d)
       mkdir -p ${{ inputs.output-dir }}
