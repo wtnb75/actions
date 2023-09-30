@@ -1,3 +1,6 @@
+name: python + pip install
+description: |
+  install python and pip install
 inputs:
   pipinstall:
     required: false
@@ -11,10 +14,20 @@ runs:
       key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
       restore-keys: |
         ${{ runner.os }}-pip-
-  - name: setup python 3.x
+  - id: setup-python
+    name: setup python 3.x
     uses: actions/setup-python@v4
     with:
       python-version: '3.x'
   - name: pip install
     if: inputs.pipinstall != ''
     run: pip install ${{ inputs.pipinstall }}
+outputs:
+  python-version:
+    description: python version string
+    value: ${{ steps.setup-python.outputs.python-version }}
+  python-path:
+    description: python executable path
+    value: ${{ steps.setup-python.outputs.python-path }}
+  cache-hit:
+    value: ${{ steps.setup-python.outputs.cache-hit }}
