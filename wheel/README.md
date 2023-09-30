@@ -1,5 +1,8 @@
 # wheel action
 
+build python package by calling setup.py bdist_wheel
+
+
 ## example
 
 ```yaml

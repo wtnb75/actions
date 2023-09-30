@@ -1,3 +1,6 @@
+name: wheel
+description: |
+  build python package by calling setup.py bdist_wheel
 inputs:
   subcommand:
     description: setup.py subcommand
