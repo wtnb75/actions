@@ -1,3 +1,5 @@
+name: pypi upload
+description: upload file to pypi
 inputs:
   username:
     description: pypi userrname
@@ -9,11 +11,15 @@ inputs:
   repository_url:
     description: pypi url
     default: https://upload.pypi.org/legacy/
+  file:
+    description: upload file
+    required: true
 runs:
   using: "composite"
   steps:
+  - run: pip install twine
   - name: deploy to pypi
-    run: twine upload dist/*.whl
+    run: twine upload ${{ inputs.file }}
     shell: bash
     env:
       TWINE_USERNAME: ${{ inputs.username }}

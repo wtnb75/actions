@@ -1,0 +1,44 @@
+# {{ name|default(filename) }} action
+{%- if description is defined %}
+
+{{ description }}
+{%- endif %}
+
+## example
+
+```yaml
+- id: {{ filename }}
+  uses: wtnb75/actions/{{ filename }}@main
+{%- if inputs is defined and inputs|length != 0 %}
+  with:
+{%- for k, v in inputs.items() %}
+    {{ k }}: value  # {{ v.description|e }}{% if v.required|default(False) %} (REQUIRED){% endif %}
+{%- endfor %}
+{%- endif %}
+{%- if outputs is defined and outputs|length != 0 %}
+- run: |
+{%- for k, v in outputs.items() %}
+    echo "{{ k }}: {%raw%}${{{%endraw%} steps.{{ filename }}.outputs.{{ k }} {%raw%}}}{%endraw%}"
+{%- endfor %}
+{%- endif %}
+```
+{%- if inputs is defined and inputs|length != 0 %}
+
+# Inputs
+
+| Name | Description | Default | Required |
+|------|-------------|---------|----------|
+{%- for k,v in inputs.items() %}
+| {{ k }} | {{ v.description|e }} | {{ v.default|default("n/a") }} | {{ v.required|default(False) }} |
+{%- endfor %}
+{%- endif %}
+{%- if outputs is defined and outputs|length != 0 %}
+
+# Outputs
+
+| Name | Description |
+|------|-------------|
+{%- for k,v in outputs.items() %}
+| {{ k }} | {{ v.description|e }} |
+{%- endfor %}
+{%- endif %}
