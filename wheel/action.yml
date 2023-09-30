@@ -1,9 +1,32 @@
+name: wheel
+description: |
+  build python package by calling setup.py bdist_wheel
+inputs:
+  subcommand:
+    description: setup.py subcommand
+    default: bdist_wheel
+    required: true
+  output-dir:
+    description: output directory
+    default: dist
+    required: true
+outputs:
+  filename:
+    description: result file name
+    value: ${{ steps.wheel-build.outputs.file }}
 runs:
   using: "composite"
   steps:
   - name: pip install wheel
     run: pip install wheel
     shell: bash
-  - name: build
-    run: python setup.py bdist_wheel
+  - id: wheel-build
+    name: build
+    run: |
+      tmpd=$(mktemp -d)
+      mkdir -p ${{ inputs.output-dir }}
+      python setup.py ${{ inputs.subcommand }} -d $tmpd
+      echo "file=$(ls -1 $tmpd)" >> "$GITHUB_OUTPUT"
+      cp $tmpd/* ${{ inputs.output-dir }}/
+      rm -rf $tmpd
     shell: bash
