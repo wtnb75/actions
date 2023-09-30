@@ -31,7 +31,7 @@ runs:
       dirindex make --template apache --hide index.html .
     shell: bash
   - name: index python packages
-    if: inputs.pydist != ""
+    if: inputs.pydist != ''
     run: |
       cp -r ${{ inputs.pydist }} ${{ inputs.output }}/${{ inputs.pydist }}
       cd ${{ inputs.output }}

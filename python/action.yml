@@ -16,5 +16,5 @@ runs:
     with:
       python-version: '3.x'
   - name: pip install
-    if: inputs.pipinstall != ""
+    if: inputs.pipinstall != ''
     run: pip install ${{ inputs.pipinstall }}
