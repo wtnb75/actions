@@ -1,3 +1,6 @@
+name: flake8 linter
+description: |
+  lint by flake8
 inputs:
   flakeext:
     required: false
