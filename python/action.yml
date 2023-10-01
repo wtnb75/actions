@@ -22,6 +22,7 @@ runs:
   - name: pip install
     if: inputs.pipinstall != ''
     run: pip install ${{ inputs.pipinstall }}
+    shell: bash
 outputs:
   python-version:
     description: python version string

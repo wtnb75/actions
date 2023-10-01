@@ -18,6 +18,7 @@ runs:
   using: "composite"
   steps:
   - run: pip install twine
+    shell: bash
   - name: deploy to pypi
     run: twine upload ${{ inputs.file }}
     shell: bash

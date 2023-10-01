@@ -59,6 +59,7 @@ runs:
       password: ${{ inputs.password }}
   - name: tag version
     if: inputs.image-version != ''
+    shell: bash
     run: |
       echo LABEL org.opencontainers.image.version=\"${{ inputs.image-version }}\" >> ${{ inputs.context }}/Dockerfile
   - id: docker-build
