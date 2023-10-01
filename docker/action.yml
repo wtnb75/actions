@@ -70,6 +70,10 @@ runs:
       build-args: ${{ inputs.build-args }}
       push: ${{ inputs.push }}
       platforms: ${{ inputs.platforms }}
+      labels: |
+        org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+        org.opencontainers.image.authors=${{ github.repository_owner }}
+        org.opencontainers.image.base.name=${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
       tags: |
         ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
         ${{ inputs.registry }}/${{ inputs.image-name }}:latest
