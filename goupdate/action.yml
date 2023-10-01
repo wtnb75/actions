@@ -5,7 +5,9 @@ runs:
   using: "compisite"
   steps:
   - run: go get -u
+    shell: bash
   - run: go mod tidy
+    shell: bash
   - name: Create PR
     uses: peter-evans/create-pull-request@v5
     with:
