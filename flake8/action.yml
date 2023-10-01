@@ -20,7 +20,7 @@ runs:
   - name: pip install flake8-ext
     run: |
       for i in ${{ inputs.flakeext }}; do
-         pip install flake8-$$i
+         pip install flake8-$i
       done
     shell: bash
   - name: lint

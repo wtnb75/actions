@@ -18,8 +18,8 @@ runs:
   - name: copy files
     run: |
       for i in ${{ inputs.dirs }}; do
-        cp -r $$i ${{ inputs.output }}/$$i
-        rm -f ${{ inputs.output }}/$$i/.gitignore
+        cp -r $i ${{ inputs.output }}/$i
+        rm -f ${{ inputs.output }}/$i/.gitignore
       done
     shell: bash
   - name: pip install pip2pi dirindex
