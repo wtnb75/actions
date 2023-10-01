@@ -1,0 +1,16 @@
+name: yamllint
+
+on:
+  push: {}
+
+jobs:
+  yamllint:
+    name: yamllint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: lint
+      uses: karancode/yamllint-github-action@master
+      with:
+        yamllint_config_filepath: rule.yml
+        yamllint_file_or_dir: '*/action.yml'
