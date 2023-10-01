@@ -25,11 +25,6 @@ runs:
   - name: pip install pip2pi dirindex
     run: pip install pip2pi dirindex
     shell: bash
-  - name: index
-    run: |
-      cd ${{ inputs.output }}
-      dirindex make --template apache --hide index.html .
-    shell: bash
   - name: index python packages
     if: inputs.pydist != ''
     run: |
@@ -37,4 +32,9 @@ runs:
       cd ${{ inputs.output }}
       dir2pi -S ${{ inputs.pydist }}
       dirindex make --template apache --hide index.html --recursive ${{ inputs.pydist }}
+    shell: bash
+  - name: index
+    run: |
+      cd ${{ inputs.output }}
+      dirindex make --template apache --hide index.html .
     shell: bash
