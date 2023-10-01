@@ -1,7 +1,7 @@
 name: docker
 description: |
   build docker image and push to registry
-inputs:
+inputs: 123
   username:
     description: docker username
     required: true
