@@ -1,0 +1,20 @@
+name: actions-validator
+
+on:
+  push: {}
+
+jobs:
+  actions-validator:
+    name: validate actions file
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: install
+      run: |
+        curl -L -o action-validator https://github.com/mpalmer/action-validator/releases/download/v0.5.3/action-validator_linux_amd64
+        chmod +x action-validator
+      shell: bash
+    - name: lint
+      run: |
+        ./action-validator */action.yml
+        ./action-validator .github/workflows/*.yml
