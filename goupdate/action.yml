@@ -1,8 +1,12 @@
+name: gomod update
+description: |
+  update go.mod/go.sum and make PR
 inputs:
   ghtoken:
+    description: github token
     required: true
 runs:
-  using: "compisite"
+  using: "composite"
   steps:
   - run: go get -u
     shell: bash

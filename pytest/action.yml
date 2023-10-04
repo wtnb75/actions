@@ -1,3 +1,6 @@
+name: pytest
+description: |
+  run pytest
 runs:
   using: "composite"
   steps:

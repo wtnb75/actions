@@ -1,3 +1,6 @@
+name: merge pages
+description: |
+  copy multiple directories for gh-pages
 inputs:
   output:
     required: true
