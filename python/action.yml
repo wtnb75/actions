@@ -32,3 +32,4 @@ outputs:
     value: ${{ steps.setup-python.outputs.python-path }}
   cache-hit:
     value: ${{ steps.setup-python.outputs.cache-hit }}
+    description: cache hit or not

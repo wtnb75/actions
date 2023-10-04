@@ -1,0 +1,14 @@
+name: actions-validator
+
+on:
+  push: {}
+
+jobs:
+  actions-validator:
+    name: validate actions file
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: ./action-validator
+      with:
+        file: "*/action.yml .github/workflows/*.yml"
