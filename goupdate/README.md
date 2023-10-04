@@ -1,4 +1,7 @@
-# goupdate action
+# gomod update action
+
+update go.mod/go.sum and make PR
+
 
 ## example
 
@@ -6,11 +9,11 @@
 - id: goupdate
   uses: wtnb75/actions/goupdate@main
   with:
-    ghtoken: value  #  (REQUIRED)
+    ghtoken: value  # github token (REQUIRED)
 ```
 
 # Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| ghtoken |  | n/a | True |
+| ghtoken | github token | n/a | True |

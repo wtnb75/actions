@@ -28,4 +28,4 @@ install python and pip install
 |------|-------------|
 | python-version | python version string |
 | python-path | python executable path |
-| cache-hit |  |
+| cache-hit | cache hit or not |

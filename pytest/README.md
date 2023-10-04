@@ -1,5 +1,8 @@
 # pytest action
 
+run pytest
+
+
 ## example
 
 ```yaml
