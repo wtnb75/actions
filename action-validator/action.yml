@@ -6,6 +6,9 @@ inputs:
     description: target yaml files
     default: .github/workflows/*.y*ml
     required: true
+  repo:
+    description: actions-validator repository
+    default: https://github.com/mpalmer/action-validator
   version:
     description: actions-validator version
     default: v0.5.3
@@ -17,6 +20,7 @@ runs:
     shell: bash
     run: |
       tmpd=$(mktemp -d)
-      curl -L -o $tmpd/action-validator https://github.com/mpalmer/action-validator/releases/download/${{ inputs.version }}/action-validator_linux_amd64
+      curl -L -o $tmpd/action-validator \
+        ${{ inputs.repo }}/releases/download/${{ inputs.version }}/action-validator_linux_amd64
       chmod +x $tmpd/action-validator
       $tmpd/action-validator ${{ inputs.files }}
