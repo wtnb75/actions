@@ -1,4 +1,7 @@
-# merge-pages action
+# merge pages action
+
+copy multiple directories for gh-pages
+
 
 ## example
 
