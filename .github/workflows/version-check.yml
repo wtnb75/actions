@@ -2,6 +2,7 @@ name: check versions
 
 on:
   workflow_dispatch: {}
+  push: {}
 
 jobs:
   check-version:
