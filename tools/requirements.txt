@@ -2,3 +2,4 @@ Jinja2
 click
 PyYAML
 natsort
+requests
