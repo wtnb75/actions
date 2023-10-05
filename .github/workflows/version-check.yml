@@ -1,0 +1,16 @@
+name: check versions
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  check-version:
+    name: action.yml version check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: ./python
+      with:
+        pipinstall: "-r tools/requirements.txt"
+    - run: python tools/mgmt.py check-version */action.yml
+      shell: bash
