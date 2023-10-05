@@ -48,7 +48,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-  - uses: docker/setup-qemu-action@v2
+  - uses: docker/setup-qemu-action@v3
   - uses: docker/setup-buildx-action@v3
   - name: login to container registry
     if: inputs.password != ''
