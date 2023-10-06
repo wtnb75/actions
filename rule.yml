@@ -1,7 +1,7 @@
 ---
 rules:
   indentation:
-    spaces: consistent
+    spaces: 2
     indent-sequences: false
   document-start: disable
   line-length:
@@ -30,3 +30,4 @@ rules:
   trailing-spaces: enable
   truthy:
     level: warning
+    check-keys: false

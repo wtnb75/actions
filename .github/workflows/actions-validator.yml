@@ -1,8 +1,6 @@
 name: actions-validator
-
 on:
   push: {}
-
 jobs:
   actions-validator:
     name: validate actions file

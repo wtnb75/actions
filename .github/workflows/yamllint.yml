@@ -1,8 +1,6 @@
 name: yamllint
-
 on:
   push: {}
-
 jobs:
   yamllint:
     name: yamllint
@@ -13,4 +11,4 @@ jobs:
       uses: karancode/yamllint-github-action@master
       with:
         yamllint_config_filepath: rule.yml
-        yamllint_file_or_dir: '*/action.yml'
+        yamllint_file_or_dir: '*/action.yml rule.yml .github/workflows/*.yml .yamlfmt'

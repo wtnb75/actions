@@ -2,8 +2,9 @@ name: gomod update
 description: |
   update go.mod/go.sum and make PR
 inputs:
-  ghtoken:
+  github-token:
     description: github token
+    default: ${{ github.token }}
     required: true
 runs:
   using: "composite"
@@ -15,7 +16,7 @@ runs:
   - name: Create PR
     uses: peter-evans/create-pull-request@v5
     with:
-      token: ${{ inputs.ghtoken }}
+      token: ${{ inputs.github-token }}
       commit-message: Update Dependencies
       title: 'auto update dependencies'
       add-paths: |

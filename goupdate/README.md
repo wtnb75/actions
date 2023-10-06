@@ -9,11 +9,11 @@ update go.mod/go.sum and make PR
 - id: goupdate
   uses: wtnb75/actions/goupdate@main
   with:
-    ghtoken: value  # github token (REQUIRED)
+    github-token: value  # github token (REQUIRED)
 ```
 
 # Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| ghtoken | github token | n/a | True |
+| github-token | github token | ${{ github.token }} | True |
