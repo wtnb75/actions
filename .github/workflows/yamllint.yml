@@ -1,8 +1,6 @@
 name: yamllint
-
 on:
   push: {}
-
 jobs:
   yamllint:
     name: yamllint

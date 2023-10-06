@@ -44,7 +44,6 @@ outputs:
   image-name:
     description: image name to pull
     value: ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
-
 runs:
   using: "composite"
   steps:
