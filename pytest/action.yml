@@ -1,11 +1,26 @@
 name: pytest
 description: |
   run pytest
+inputs:
+  test-readme:
+    description: directory contains README.md to use pytest-readme
+    required: false
 runs:
   using: "composite"
   steps:
   - name: pip install pytest
     run: pip install pytest pytest-cov pytest-github-actions-annotate-failures
+    shell: bash
+  - name: pytest-readme
+    if: inputs.test-readme != ''
+    run: |
+      pip install pytest-readme
+      if [ -f ${{ inputs.test-readme }}/README.md ] ; then
+        cat <<EOF > ${{ inputs.test-readme }}/conftest.py
+        from pytest_readme import setup
+        setup()
+        EOF
+      fi
     shell: bash
   - name: test
     run: PYTHONPATH=. pytest -xs
