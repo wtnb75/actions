@@ -16,10 +16,8 @@ runs:
     run: |
       pip install pytest-readme
       if [ -f ${{ inputs.test-readme }}/README.md ] ; then
-        cat <<EOF > ${{ inputs.test-readme }}/conftest.py
-        from pytest_readme import setup
-        setup()
-        EOF
+        echo 'from pytest_readme import setup' > ${{ inputs.test-readme }}/conftest.py
+        echo 'setup()' >> ${{ inputs.test-readme }}/conftest.py
       fi
     shell: bash
   - name: test
