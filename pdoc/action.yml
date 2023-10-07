@@ -1,0 +1,22 @@
+name: pdoc
+description: |
+  run pdoc
+inputs:
+  output-dir:
+    description: output directory
+    required: true
+  module:
+    description: module to document
+    required: true
+  other-options:
+    description: other option to pdoc
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - name: pip install pdoc
+    run: pip install pdoc
+    shell: bash
+  - name: generate
+    run: pdoc -o ${{ inputs.output-dir }} ${{ inputs.module }} ${{ inputs.other-options }}
+    shell: bash
