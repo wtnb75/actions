@@ -1,7 +1,9 @@
-name: test
+name: test python related actions
+
 on:
   push: {}
   workflow_dispatch: {}
+
 jobs:
   python:
     runs-on: ubuntu-latest
@@ -10,25 +12,23 @@ jobs:
         working-directory: _python.test
     steps:
     - uses: actions/checkout@v4
-      with:
-        sparse-checkout: _python.test
-    - uses: wtnb75/actions/python@${{ github.ref_name }}
+    - uses: ./python
       with:
         pipinstall: dirimport
-    - uses: wtnb75/actions/flake8@${{ github.ref_name }}
+    - uses: ./flake8
       with:
         dirs: "dummy tests"
-    - uses: wtnb75/actions/pytest@${{ github.ref_name }}
+    - uses: ./pytest
       with:
         test-readme: .
     - id: pdoc
-      uses: wtnb75/actions/pdoc@${{ github.ref_name }}
+      uses: ./pdoc
       with:
         output-dir: docs
         module: dummy
     - id: wheel
-      uses: wtnb75/actions/wheel@${{ github.ref_name }}
-    - uses: wtnb75/actions/merge-pages@${{ github.ref_name }}
+      uses: ./wheel
+    - uses: ./merge-pages
       with:
         output: publish
         dirs: "docs coverage"
