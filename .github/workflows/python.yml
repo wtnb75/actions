@@ -30,8 +30,8 @@ jobs:
     - uses: ./merge-pages
       with:
         output: publish
-        dirs: "docs cover"
-        pydist: dist
+        dirs: "docs cover dist"
+        #pydist: dist
   use-artifact:
     needs: python
     runs-on: ubuntu-latest
