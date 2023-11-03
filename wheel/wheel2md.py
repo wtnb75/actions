@@ -19,7 +19,7 @@ def main():
     if args.output:
         ofp = open(args.output, "w")
     elif args.append:
-        ofp = open(args.output, "a+")
+        ofp = open(args.append, "a+")
     else:
         ofp = sys.stdout
     pkg = Wheel(args.filename)
