@@ -6,12 +6,17 @@ lint by flake8
 ## example
 
 ```yaml
-- id: flake8
-  uses: wtnb75/actions/flake8@main
-  with:
-    flakeext: value  # flake8 extensions
-    dirs: value  # directories (REQUIRED)
-    flakeopts: value  # flake8 options
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v4
+    - id: flake8
+      uses: wtnb75/actions/flake8@main
+      with:
+        flakeext: value  # flake8 extensions
+        dirs: value  # directories (REQUIRED)
+        flakeopts: value  # flake8 options
 ```
 
 # Inputs

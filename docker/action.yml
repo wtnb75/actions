@@ -76,3 +76,10 @@ runs:
       tags: |
         ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
         ${{ inputs.registry }}/${{ inputs.image-name }}:latest
+  - name: summary
+    run: |
+      cat <<EOF >> $GITHUB_STEP_SUMMARY
+        - docker pull ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
+        - image-id: ${{ steps.docker-build.outputs.imageid }}
+      EOF
+    shell: bash

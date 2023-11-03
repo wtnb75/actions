@@ -6,10 +6,15 @@ update go.mod/go.sum and make PR
 ## example
 
 ```yaml
-- id: goupdate
-  uses: wtnb75/actions/goupdate@main
-  with:
-    github-token: value  # github token (REQUIRED)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-go@v4
+    - id: goupdate
+      uses: wtnb75/actions/goupdate@main
+      with:
+        github-token: value  # github token (REQUIRED)
 ```
 
 # Inputs

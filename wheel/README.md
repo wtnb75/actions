@@ -6,20 +6,36 @@ build python package by calling setup.py bdist_wheel
 ## example
 
 ```yaml
-- id: wheel
-  uses: wtnb75/actions/wheel@main
-  with:
-    subcommand: value  # setup.py subcommand (REQUIRED)
-    output-dir: value  # output directory (REQUIRED)
-- run: |
-    echo "filename: ${{ steps.wheel.outputs.filename }}"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v4
+    - id: wheel
+      uses: wtnb75/actions/wheel@main
+      with:
+        output-dir: value  # output directory (REQUIRED)
+    - run: |
+        echo "filename: ${{ steps.wheel.outputs.filename }}"
+        echo "hash: ${{ steps.wheel.outputs.hash }}"
+  use-artifact:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - use: actions/download-artifact@v3
+      with:
+        name: wheel
+        path: path/to/artifact
+    - name: show files in wheel
+      run: ls -lR
+      working-directory: path/to/artifact
+      shell: bash
 ```
 
 # Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| subcommand | setup.py subcommand | bdist_wheel | True |
 | output-dir | output directory | dist | True |
 
 # Outputs
@@ -27,3 +43,10 @@ build python package by calling setup.py bdist_wheel
 | Name | Description |
 |------|-------------|
 | filename | result file name |
+| hash | result file hash |
+
+# Artifacts
+
+| Name | Description |
+|------|-------------|
+| wheel | wheel artifact |

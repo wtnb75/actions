@@ -6,12 +6,16 @@ validate github actions yaml file
 ## example
 
 ```yaml
-- id: action-validator
-  uses: wtnb75/actions/action-validator@main
-  with:
-    files: value  # target yaml files (REQUIRED)
-    repo: value  # actions-validator repository
-    version: value  # actions-validator version (REQUIRED)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - id: action-validator
+      uses: wtnb75/actions/action-validator@main
+      with:
+        files: value  # target yaml files (REQUIRED)
+        repo: value  # actions-validator repository
+        version: value  # actions-validator version (REQUIRED)
 ```
 
 # Inputs

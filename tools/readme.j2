@@ -5,21 +5,70 @@
 {%- endif %}
 
 ## example
+{%- set stepstr = runs.steps|tojson %}
 
 ```yaml
-- id: {{ filename }}
-  uses: wtnb75/actions/{{ filename }}@main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+{%- if "pip" in stepstr and "setup-python" not in stepstr %}
+    - uses: actions/setup-python@v4
+{%- endif %}
+{%- if "mvn" in stepstr or "gradle" in stepstr and "setup-java" not in stepstr %}
+    - uses: actions/setup-java@v3
+{%- endif %}
+{%- if "npm" in stepstr and "setup-node" not in stepstr %}
+    - uses: actions/setup-node@v3
+{%- endif %}
+{%- if "go " in stepstr and "setup-go" not in stepstr %}
+    - uses: actions/setup-go@v4
+{%- endif %}
+    - id: {{ filename }}
+      uses: wtnb75/actions/{{ filename }}@main
 {%- if inputs is defined and inputs|length != 0 %}
-  with:
+      with:
 {%- for k, v in inputs.items() %}
-    {{ k }}: value  # {{ v.description|e }}{% if v.required|default(False) %} (REQUIRED){% endif %}
+        {{ k }}: value  # {{ v.description|e }}{% if v.required|default(False) %} (REQUIRED){% endif %}
 {%- endfor %}
 {%- endif %}
 {%- if outputs is defined and outputs|length != 0 %}
-- run: |
+    - run: |
 {%- for k, v in outputs.items() %}
-    echo "{{ k }}: {%raw%}${{{%endraw%} steps.{{ filename }}.outputs.{{ k }} {%raw%}}}{%endraw%}"
+        echo "{{ k }}: {% raw %}${{{% endraw %} steps.{{ filename }}.outputs.{{ k }} {% raw %}}}{% endraw %}"
 {%- endfor %}
+{%- endif %}
+{%- if "upload-artifact" in stepstr %}
+  use-artifact:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+{%- for s in runs.steps %}
+{%- if "upload-artifact" in s.uses %}
+    - use: actions/download-artifact@v3
+      with:
+        name: {{ s.with.name }}
+        path: path/to/artifact
+    - name: show files in {{ s.with.name }}
+      run: ls -lR
+      working-directory: path/to/artifact
+      shell: bash
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+{%- if "upload-pages-artifact" in stepstr %}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      pages: write
+    environment:
+      name: github-pages
+      url: {% raw %}${{ steps.deployment.outputs.page_url }}{% endraw %}
+    steps:
+    - id: deployment
+      uses: actions/deploy-pages@v2
 {%- endif %}
 ```
 {%- if inputs is defined and inputs|length != 0 %}
@@ -40,5 +89,21 @@
 |------|-------------|
 {%- for k,v in outputs.items() %}
 | {{ k }} | {{ v.description|e }} |
+{%- endfor %}
+{%- endif %}
+
+{%- if "upload-artifact" in stepstr or "upload-pages-artifact" in stepstr %}
+
+# Artifacts
+
+| Name | Description |
+|------|-------------|
+{%- for s in runs.steps %}
+{%- if "upload-artifact" in s.uses %}
+| {{ s.with.name }} | {{ s.name }} |
+{%- endif %}
+{%- if "upload-pages-artifact" in s.uses %}
+| github-pages | {{ s.name }} |
+{%- endif %}
 {%- endfor %}
 {%- endif %}

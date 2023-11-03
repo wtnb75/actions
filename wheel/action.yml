@@ -2,10 +2,6 @@ name: wheel
 description: |
   build python package by calling setup.py bdist_wheel
 inputs:
-  subcommand:
-    description: setup.py subcommand
-    default: bdist_wheel
-    required: true
   output-dir:
     description: output directory
     default: dist
@@ -14,19 +10,34 @@ outputs:
   filename:
     description: result file name
     value: ${{ steps.wheel-build.outputs.file }}
+  hash:
+    description: result file hash
+    value: ${{ steps.wheel-build.outputs.hash }}
 runs:
   using: "composite"
   steps:
   - name: pip install wheel
-    run: pip install wheel
+    run: pip install wheel build
     shell: bash
   - id: wheel-build
     name: build
     run: |
       tmpd=$(mktemp -d)
       mkdir -p ${{ inputs.output-dir }}
-      python setup.py ${{ inputs.subcommand }} -d $tmpd
+      python -m build -w -o $tmpd
       echo "file=$(ls -1 $tmpd)" >> "$GITHUB_OUTPUT"
+      echo "hash=$(pip hash $tmpd/*.whl | grep hash | cut -f2 -d=)" >> "$GITHUB_OUTPUT"
       cp $tmpd/* ${{ inputs.output-dir }}/
       rm -rf $tmpd
     shell: bash
+  - name: summary
+    run: |
+      python ${{ github.action_path }}/wheel2md.py \
+        ${{ inputs.output-dir }}/${{ steps.wheel-build.outputs.file }} \
+        -a $GITHUB_STEP_SUMMARY
+    shell: bash
+  - name: wheel artifact
+    uses: actions/upload-artifact@v3
+    with:
+      name: wheel
+      path: ${{ inputs.output-dir }}/${{ steps.wheel-build.outputs.file }}
