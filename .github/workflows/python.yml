@@ -7,9 +7,9 @@ on:
 jobs:
   python:
     runs-on: ubuntu-latest
-    #defaults:
-    #  run:
-    #    working-directory: ./_python.test
+    defaults:
+      run:
+        working-directory: ./_python.test
     steps:
     - uses: actions/checkout@v4
     - uses: ./python
@@ -37,19 +37,19 @@ jobs:
     needs: python
     runs-on: ubuntu-latest
     steps:
-    - uses: download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: wheel
         path: wheel
-    - uses: download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: coverage
         path: coverage
-    - uses: download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: pdoc
         path: pdoc
-    - uses: download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: github-pages
         path: github-pages
