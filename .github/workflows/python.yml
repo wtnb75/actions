@@ -7,12 +7,13 @@ on:
 jobs:
   python:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./_python.test
     steps:
     - uses: actions/checkout@v4
-    - uses: ./python
+      with:
+        sparse-checkout: _python.test
+    - run: mv -f _python.test/* .
+      shell: bash
+    - uses: wtnb75/actions/python@${{ github.ref_name }}
       with:
         pipinstall: dirimport
     - uses: ./flake8
