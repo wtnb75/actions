@@ -31,7 +31,7 @@ jobs:
       with:
         output: publish
         dirs: "docs cover dist"
-        #pydist: dist
+        # pydist: dist
   use-artifact:
     needs: python
     runs-on: ubuntu-latest
