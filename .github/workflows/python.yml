@@ -13,7 +13,7 @@ jobs:
       shell: bash
     - uses: ./python
       with:
-        pipinstall: dirimport
+        pipinstall: "-r tools/requirements.txt"
     - uses: ./flake8
       with:
         dirs: "dummy tests"
