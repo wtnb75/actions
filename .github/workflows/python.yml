@@ -15,7 +15,7 @@ jobs:
       shell: bash
     - uses: ./python
       with:
-        pipinstall: dirindex
+        pipinstall: pkginfo
     - uses: ./flake8
       with:
         dirs: "dummy tests"

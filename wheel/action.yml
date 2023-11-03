@@ -17,7 +17,7 @@ runs:
   using: "composite"
   steps:
   - name: pip install wheel
-    run: pip install wheel build
+    run: pip install wheel build pkginfo
     shell: bash
   - id: wheel-build
     name: build
