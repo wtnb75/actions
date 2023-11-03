@@ -20,3 +20,8 @@ runs:
   - name: generate
     run: pdoc -o ${{ inputs.output-dir }} ${{ inputs.module }} ${{ inputs.other-options }}
     shell: bash
+  - name: document data
+    uses: actions/upload-artifact@v3
+    with:
+      name: pdoc
+      path: ${{ inputs.output-dir }}

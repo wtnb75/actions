@@ -23,3 +23,13 @@ runs:
   - name: test
     run: PYTHONPATH=. pytest -xs
     shell: bash
+  - name: summary
+    run: coverage report --format markdown --omit tests >> $GITHUB_STEP_SUMMARY
+    shell: bash
+  - name: coverage data
+    uses: actions/upload-artifact@v3
+    with:
+      name: coverage
+      path: |
+        .coverage
+        cover

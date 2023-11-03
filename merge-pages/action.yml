@@ -41,3 +41,7 @@ runs:
       cd ${{ inputs.output }}
       dirindex make --template apache --hide index.html .
     shell: bash
+  - name: merged pages
+    uses: actions/upload-pages-artifact@v2
+    with:
+      path: ${{ inputs.output }}

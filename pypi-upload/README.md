@@ -5,13 +5,18 @@ upload file to pypi
 ## example
 
 ```yaml
-- id: pypi-upload
-  uses: wtnb75/actions/pypi-upload@main
-  with:
-    username: value  # pypi userrname (REQUIRED)
-    password: value  # pypi password (REQUIRED)
-    repository_url: value  # pypi url
-    file: value  # upload file (REQUIRED)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v4
+    - id: pypi-upload
+      uses: wtnb75/actions/pypi-upload@main
+      with:
+        username: value  # pypi userrname (REQUIRED)
+        password: value  # pypi password (REQUIRED)
+        repository_url: value  # pypi url
+        file: value  # upload file (REQUIRED)
 ```
 
 # Inputs

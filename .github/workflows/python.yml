@@ -1,0 +1,57 @@
+name: test python related actions
+
+on:
+  push: {}
+  workflow_dispatch: {}
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: |
+        rm -rf tools
+        mv -f _python.test/* .
+      shell: bash
+    - uses: ./python
+      with:
+        pipinstall: pkginfo
+    - uses: ./flake8
+      with:
+        dirs: "dummy tests"
+    - uses: ./pytest
+    - id: pdoc
+      uses: ./pdoc
+      with:
+        output-dir: docs
+        module: dummy
+    - id: wheel
+      uses: ./wheel
+    - uses: ./merge-pages
+      with:
+        output: publish
+        dirs: "docs cover dist"
+        # pydist: dist
+  use-artifact:
+    needs: python
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: wheel
+        path: wheel
+    - uses: actions/download-artifact@v3
+      with:
+        name: coverage
+        path: coverage
+    - uses: actions/download-artifact@v3
+      with:
+        name: pdoc
+        path: pdoc
+    - uses: actions/download-artifact@v3
+      with:
+        name: github-pages
+        path: github-pages
+    - name: show files
+      run: ls -lR
+      shell: bash
