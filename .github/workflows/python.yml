@@ -30,7 +30,7 @@ jobs:
     - uses: ./merge-pages
       with:
         output: publish
-        dirs: "docs coverage"
+        dirs: "docs cover"
         pydist: dist
   use-artifact:
     needs: python
