@@ -9,11 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: mv -f _python.test/* .
+    - run: |
+        rm -rf tools
+        mv -f _python.test/* .
       shell: bash
     - uses: ./python
       with:
-        pipinstall: "-r tools/requirements.txt"
+        pipinstall: dirindex
     - uses: ./flake8
       with:
         dirs: "dummy tests"
