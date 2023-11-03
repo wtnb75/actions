@@ -21,7 +21,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - use: actions/download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: pdoc
         path: path/to/artifact

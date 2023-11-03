@@ -45,7 +45,7 @@ jobs:
     steps:
 {%- for s in runs.steps %}
 {%- if "upload-artifact" in s.uses %}
-    - use: actions/download-artifact@v3
+    - uses: actions/download-artifact@v3
       with:
         name: {{ s.with.name }}
         path: path/to/artifact

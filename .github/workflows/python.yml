@@ -1,0 +1,58 @@
+name: test
+on:
+  push: {}
+  workflow_dispatch: {}
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: _python.test
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        sparse-checkout: _python.test
+    - uses: wtnb75/actions/python@${{ github.ref_name }}
+      with:
+        pipinstall: dirimport
+    - uses: wtnb75/actions/flake8@${{ github.ref_name }}
+      with:
+        dirs: "dummy tests"
+    - uses: wtnb75/actions/pytest@${{ github.ref_name }}
+      with:
+        test-readme: .
+    - id: pdoc
+      uses: wtnb75/actions/pdoc@${{ github.ref_name }}
+      with:
+        output-dir: docs
+        module: dummy
+    - id: wheel
+      uses: wtnb75/actions/wheel@${{ github.ref_name }}
+    - uses: wtnb75/actions/merge-pages@${{ github.ref_name }}
+      with:
+        output: publish
+        dirs: "docs coverage"
+        pydist: dist
+  use-artifact:
+    needs: python
+    runs-on: ubuntu-latest
+    steps:
+    - uses: download-artifact@v3
+      with:
+        name: wheel
+        path: wheel
+    - uses: download-artifact@v3
+      with:
+        name: coverage
+        path: coverage
+    - uses: download-artifact@v3
+      with:
+        name: pdoc
+        path: pdoc
+    - uses: download-artifact@v3
+      with:
+        name: github-pages
+        path: github-pages
+    - name: show files
+      run: ls -lR
+      shell: bash
