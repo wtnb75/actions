@@ -9,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-      with:
-        sparse-checkout: _python.test
     - run: mv -f _python.test/* .
       shell: bash
-    - uses: wtnb75/actions/python@${{ github.ref_name }}
+    - uses: ./python
       with:
         pipinstall: dirimport
     - uses: ./flake8
