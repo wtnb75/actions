@@ -22,6 +22,7 @@ jobs:
         build-args: value  # build args
         platforms: value  # image platforms
         push: value  # push
+        file: value  # dockerfile
     - run: |
         echo "imageid: ${{ steps.docker.outputs.imageid }}"
         echo "digest: ${{ steps.docker.outputs.digest }}"
@@ -42,6 +43,7 @@ jobs:
 | build-args | build args | n/a | False |
 | platforms | image platforms | linux/amd64,linux/arm64 | False |
 | push | push | false | False |
+| file | dockerfile | n/a | False |
 
 # Outputs
 
