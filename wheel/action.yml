@@ -37,7 +37,7 @@ runs:
         -a $GITHUB_STEP_SUMMARY
     shell: bash
   - name: wheel artifact
-    uses: actions/upload-artifact@v3
+    uses: actions/upload-artifact@v4
     with:
       name: wheel
       path: ${{ inputs.output-dir }}/${{ steps.wheel-build.outputs.file }}

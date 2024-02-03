@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-go@v4
+    - uses: actions/setup-go@v5
     - id: goupdate
       uses: wtnb75/actions/goupdate@main
       with:

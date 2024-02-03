@@ -13,16 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 {%- if "pip" in stepstr and "setup-python" not in stepstr %}
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
 {%- endif %}
 {%- if "mvn" in stepstr or "gradle" in stepstr and "setup-java" not in stepstr %}
-    - uses: actions/setup-java@v3
+    - uses: actions/setup-java@v4
 {%- endif %}
 {%- if "npm" in stepstr and "setup-node" not in stepstr %}
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
 {%- endif %}
 {%- if "go " in stepstr and "setup-go" not in stepstr %}
-    - uses: actions/setup-go@v4
+    - uses: actions/setup-go@v5
 {%- endif %}
     - id: {{ filename }}
       uses: wtnb75/actions/{{ filename }}@main
@@ -45,7 +45,7 @@ jobs:
     steps:
 {%- for s in runs.steps %}
 {%- if "upload-artifact" in s.uses %}
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: {{ s.with.name }}
         path: path/to/artifact
@@ -68,7 +68,7 @@ jobs:
       url: {% raw %}${{ steps.deployment.outputs.page_url }}{% endraw %}
     steps:
     - id: deployment
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
 {%- endif %}
 ```
 {%- if inputs is defined and inputs|length != 0 %}
