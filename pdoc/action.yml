@@ -21,7 +21,7 @@ runs:
     run: pdoc -o ${{ inputs.output-dir }} ${{ inputs.module }} ${{ inputs.other-options }}
     shell: bash
   - name: document data
-    uses: actions/upload-artifact@v3
+    uses: actions/upload-artifact@v4
     with:
       name: pdoc
       path: ${{ inputs.output-dir }}
