@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
     - id: flake8
       uses: wtnb75/actions/flake8@main
       with:

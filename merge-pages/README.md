@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
     - id: merge-pages
       uses: wtnb75/actions/merge-pages@main
       with:
@@ -28,7 +28,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
     - id: deployment
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
 ```
 
 # Inputs

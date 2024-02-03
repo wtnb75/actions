@@ -1,9 +1,7 @@
 name: test python related actions
-
 on:
   push: {}
   workflow_dispatch: {}
-
 jobs:
   python:
     runs-on: ubuntu-latest
@@ -36,19 +34,19 @@ jobs:
     needs: python
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: wheel
         path: wheel
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: coverage
         path: coverage
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: pdoc
         path: pdoc
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: github-pages
         path: github-pages

@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
     - id: pytest
       uses: wtnb75/actions/pytest@main
       with:
@@ -19,7 +19,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
         name: coverage
         path: path/to/artifact
