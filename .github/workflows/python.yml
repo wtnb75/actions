@@ -7,29 +7,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - run: |
+        rm -rf tools
+        mv -f _python.test/* .
+      shell: bash
     - uses: ./python
-      working-directory: _python.test
       with:
         pipinstall: pkginfo
     - uses: ./flake8
-      working-directory: _python.test
       with:
         dirs: "dummy tests"
     - uses: ./pytest
-      working-directory: _python.test
     - id: pdoc
-      working-directory: _python.test
       uses: ./pdoc
       with:
-        output-dir: ../docs
+        output-dir: docs
         module: dummy
     - id: wheel
-      working-directory: _python.test
       uses: ./wheel
     - uses: ./merge-pages
-      working-directory: _python.test
       with:
-        output: ../publish
+        output: publish
         dirs: "docs cover dist"
         # pydist: dist
   use-artifact:
