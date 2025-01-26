@@ -10,6 +10,7 @@ jobs:
         working-directory: _python.test
     steps:
     - uses: actions/checkout@v4
+      working-directory: ${{ github.workspace }}
     - uses: ./python
       with:
         pipinstall: pkginfo
