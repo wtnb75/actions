@@ -29,7 +29,9 @@ runs:
   - name: diff coverage
     shell: bash
     run: |
+      git fetch origin ${{ github.ref_name }}
       git fetch origin ${{ github.event.repository.default_branch }}
+      git checkout origin/${{ github.ref_name }}
       if git merge-base origin/${{ github.event.repository.default_branch }} HEAD ; then
         coverage xml
         pip install diff-cover
