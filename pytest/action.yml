@@ -35,6 +35,8 @@ runs:
         pip install diff-cover
         diff-cover coverage.xml --compare-branch origin/main --markdown-report report.md
         cat report.md >> $GITHUB_STEP_SUMMARY
+      else
+        echo "no merge base: ${{ github.event.repository.default_branch }}"
       fi
     if: github.ref_name != github.event.repository.default_branch
   - name: coverage data
