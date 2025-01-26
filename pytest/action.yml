@@ -26,6 +26,16 @@ runs:
   - name: summary
     run: coverage report --format markdown --omit tests >> $GITHUB_STEP_SUMMARY
     shell: bash
+  - name: diff coverage
+    shell: bash
+    run: |
+      git fetch origin ${{ github.event.repository.default_branch }}
+      git diff origin/${{ github.event.repository.default_branch }}..${{ github.ref_name}} > diff-cover.diff
+      coverage xml
+      pip install diff-cover
+      diff-cover coverage.xml --diff-file diff-cover.diff --markdown-report report.md
+      cat report.md >> $GITHUB_STEP_SUMMARY
+    if: github.ref_name != github.event.repository.default_branch
   - name: coverage data
     uses: actions/upload-artifact@v4
     with:
@@ -33,3 +43,4 @@ runs:
       path: |
         .coverage
         cover
+        coverage.xml
