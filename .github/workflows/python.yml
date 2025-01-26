@@ -5,12 +5,11 @@ on:
 jobs:
   python:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: _python.test
     steps:
     - uses: actions/checkout@v4
-    - run: |
-        rm -rf tools
-        mv -f _python.test/* .
-      shell: bash
     - uses: ./python
       with:
         pipinstall: pkginfo
@@ -21,13 +20,13 @@ jobs:
     - id: pdoc
       uses: ./pdoc
       with:
-        output-dir: docs
+        output-dir: ../docs
         module: dummy
     - id: wheel
       uses: ./wheel
     - uses: ./merge-pages
       with:
-        output: publish
+        output: ../publish
         dirs: "docs cover dist"
         # pydist: dist
   use-artifact:
