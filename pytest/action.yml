@@ -5,11 +5,18 @@ inputs:
   test-readme:
     description: directory contains README.md to use pytest-readme
     required: false
+  benchmark:
+    description: use benchmark
+    required: false
 runs:
   using: "composite"
   steps:
   - name: pip install pytest
     run: pip install pytest pytest-cov pytest-github-actions-annotate-failures
+    shell: bash
+  - name: pip install pytest-benchmark
+    if: inputs.benchmark != ''
+    run: pip install pytest-benchmark
     shell: bash
   - name: pytest-readme
     if: inputs.test-readme != ''
