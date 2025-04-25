@@ -33,7 +33,7 @@ runs:
     run: |
       cp -r ${{ inputs.pydist }} ${{ inputs.output }}/${{ inputs.pydist }}
       cd ${{ inputs.output }}
-      dir2pi -S ${{ inputs.pydist }}
+      #dir2pi -S ${{ inputs.pydist }}
       dirindex make --template apache --hide index.html --recursive ${{ inputs.pydist }}
     shell: bash
   - name: index
