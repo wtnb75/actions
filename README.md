@@ -9,4 +9,5 @@
 - [wtnb75/actions/pypi-upload](pypi-upload)
 - [wtnb75/actions/pytest](pytest)
 - [wtnb75/actions/python](python)
+- [wtnb75/actions/ruff](ruff)
 - [wtnb75/actions/wheel](wheel)

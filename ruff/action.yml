@@ -1,0 +1,20 @@
+name: ruff linter
+description: |
+  lint by ruff
+inputs:
+  dirs:
+    required: true
+    description: directories
+    default: .
+runs:
+  using: "composite"
+  steps:
+  - name: pip install ruff
+    run: pip install ruff
+    shell: bash
+  - name: check
+    run: ruff check --output-format=github ${{ inputs.dirs }}
+    shell: bash
+  - name: format
+    run: ruff format --check --diff ${{ inputs.dirs }}
+    shell: bash
