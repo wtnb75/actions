@@ -13,3 +13,21 @@ jobs:
     - uses: ./gotest
       with:
         tags: demo
+
+  goupdate-check:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@v6
+    - run: mv -f _go.test/* .
+      shell: bash
+    - uses: actions/setup-go@v6
+      with:
+        go-version: stable
+        cache: true
+    - uses: ./goupdate
+      with:
+        go-test-args: "./..."
