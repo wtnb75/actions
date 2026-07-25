@@ -16,7 +16,7 @@ jobs:
     - name: Create PR
       uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
       with:
-        token: ${{ github.token }}
+        token: ${{ secrets.WORKFLOWS_PAT }}
         commit-message: "chore: pin actions to SHA"
         title: "chore: pin actions to SHA"
         branch: chore/pinact-update

@@ -37,4 +37,3 @@ runs:
       add-paths: |
         go.mod
         go.sum
-        .github/workflows/*.yml
