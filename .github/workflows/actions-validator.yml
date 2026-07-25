@@ -6,7 +6,7 @@ jobs:
     name: validate actions file
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - uses: ./action-validator
       with:
         file: "*/action.yml .github/workflows/*.yml"

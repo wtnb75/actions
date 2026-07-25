@@ -6,9 +6,9 @@ jobs:
     name: yamllint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: lint
-      uses: karancode/yamllint-github-action@master
+      uses: karancode/yamllint-github-action@4052d365f09b8d34eb552c363d1141fd60e2aeb2 # v3.0.0
       with:
         yamllint_config_filepath: rule.yml
         yamllint_file_or_dir: '*/action.yml rule.yml .github/workflows/*.yml .yamlfmt'

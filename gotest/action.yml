@@ -19,7 +19,7 @@ runs:
         go test -tags "$t" -v ./... -coverprofile=cover.out.$t -covermode=atomic -coverpkg=./... -json >> report.json
         tail -q -n +2 cover.out.$t >> cover.out
       done
-  - uses: becheran/go-testreport@v0.3.2
+  - uses: becheran/go-testreport@90efc1ce13c872f23d6bc8a069527c26288b8f9c # v0.3.2
     with:
       input: report.json
   - name: coverage summary
