@@ -16,6 +16,7 @@ runs:
     shell: bash
   - run: go mod tidy
     shell: bash
+  - uses: ./pinact
   - name: test
     if: inputs.go-test-args != ''
     run: go test ${{ inputs.go-test-args }}
