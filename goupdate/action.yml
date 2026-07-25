@@ -6,12 +6,19 @@ inputs:
     description: github token
     default: ${{ github.token }}
     required: true
+  go-test-args:
+    description: "if set, run `go test <args>` after update; PR is skipped when the test fails"
+    required: false
 runs:
   using: "composite"
   steps:
   - run: go get -u
     shell: bash
   - run: go mod tidy
+    shell: bash
+  - name: test
+    if: inputs.go-test-args != ''
+    run: go test ${{ inputs.go-test-args }}
     shell: bash
   - name: Create PR
     uses: peter-evans/create-pull-request@v7

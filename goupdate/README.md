@@ -15,6 +15,7 @@ jobs:
       uses: wtnb75/actions/goupdate@main
       with:
         github-token: value  # github token (REQUIRED)
+        go-test-args: value  # if set, run `go test &lt;args&gt;` after update; PR is skipped when the test fails
 ```
 
 # Inputs
@@ -22,3 +23,4 @@ jobs:
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | github-token | github token | ${{ github.token }} | True |
+| go-test-args | if set, run `go test &lt;args&gt;` after update; PR is skipped when the test fails | n/a | False |
