@@ -21,6 +21,7 @@ jobs:
         title: "chore: pin actions to SHA"
         branch: chore/pinact-update
         delete-branch: true
+        reviewers: ${{ github.repository_owner }}
         add-paths: |
           */action.yml
           .github/workflows/*.yml
