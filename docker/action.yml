@@ -46,7 +46,7 @@ outputs:
     value: ${{ steps.docker-build.outputs.metadata }}
   image-name:
     description: image name to pull
-    value: ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
+    value: ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
 runs:
   using: "composite"
   steps:
@@ -64,6 +64,12 @@ runs:
     shell: bash
     run: |
       echo LABEL org.opencontainers.image.version=\"${{ inputs.image-version }}\" >> ${{ inputs.context }}/Dockerfile
+  - id: tag
+    name: sanitize ref name for docker tag
+    shell: bash
+    run: |
+      tag=$(echo "${{ github.ref_name }}" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9_.-]#-#g')
+      echo "tag=$tag" >> "$GITHUB_OUTPUT"
   - id: docker-build
     name: build and push
     uses: docker/build-push-action@v6
@@ -78,7 +84,7 @@ runs:
         org.opencontainers.image.authors=${{ github.repository_owner }}
         org.opencontainers.image.base.name=${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
       tags: |
-        ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
+        ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
         ${{ inputs.registry }}/${{ inputs.image-name }}:latest
   - name: summary
     run: |
