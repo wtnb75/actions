@@ -1,0 +1,15 @@
+name: test golang related actions
+on:
+  push: {}
+  workflow_dispatch: {}
+jobs:
+  golang:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - run: mv -f _go.test/* .
+      shell: bash
+    - uses: ./golang
+    - uses: ./gotest
+      with:
+        tags: demo
