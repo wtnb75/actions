@@ -8,7 +8,6 @@
 - [wtnb75/actions/goupdate](goupdate)
 - [wtnb75/actions/merge-pages](merge-pages)
 - [wtnb75/actions/pdoc](pdoc)
-- [wtnb75/actions/pinact](pinact)
 - [wtnb75/actions/pypi-upload](pypi-upload)
 - [wtnb75/actions/pytest](pytest)
 - [wtnb75/actions/python](python)
