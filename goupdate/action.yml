@@ -6,6 +6,9 @@ inputs:
     description: github token
     default: ${{ github.token }}
     required: true
+  go-test-args:
+    description: "if set, run `go test <args>` after update; PR is skipped when the test fails"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -13,12 +16,19 @@ runs:
     shell: bash
   - run: go mod tidy
     shell: bash
+  - name: test
+    if: inputs.go-test-args != ''
+    run: go test ${{ inputs.go-test-args }}
+    shell: bash
   - name: Create PR
-    uses: peter-evans/create-pull-request@v7
+    uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:
       token: ${{ inputs.github-token }}
       commit-message: Update Dependencies
       title: 'auto update dependencies'
+      branch: chore/update-deps
+      delete-branch: true
       add-paths: |
         go.mod
         go.sum
+        .github/workflows/*.yml

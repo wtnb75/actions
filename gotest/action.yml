@@ -1,0 +1,34 @@
+name: go test + coverage
+description: |
+  run go test with coverage, optionally with extra build tags
+inputs:
+  tags:
+    description: "space-separated build tags to test additionally (e.g. 'wasmer wasmtime docker wazero')"
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - name: test (default)
+    run: go test -v ./... -coverprofile=cover.out -covermode=atomic -coverpkg=./... -json > report.json
+    shell: bash
+  - name: test (extra build tags)
+    if: inputs.tags != ''
+    shell: bash
+    run: |
+      for t in ${{ inputs.tags }}; do
+        go test -tags "$t" -v ./... -coverprofile=cover.out.$t -covermode=atomic -coverpkg=./... -json >> report.json
+        tail -q -n +2 cover.out.$t >> cover.out
+      done
+  - uses: becheran/go-testreport@90efc1ce13c872f23d6bc8a069527c26288b8f9c # v0.3.2
+    with:
+      input: report.json
+  - name: coverage summary
+    shell: bash
+    run: |
+      {
+        echo "## coverage report"
+        echo
+        echo '```'
+        go tool cover -func=cover.out
+        echo '```'
+      } >> "$GITHUB_STEP_SUMMARY"

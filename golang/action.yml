@@ -1,0 +1,28 @@
+name: golang setup + fmt/vet/lint
+description: |
+  setup go, then run gofmt/go vet/golangci-lint
+inputs:
+  go-version:
+    description: go version
+    default: stable
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+    with:
+      go-version: ${{ inputs.go-version }}
+      cache: true
+  - name: gofmt
+    shell: bash
+    run: |
+      fmt_out=$(gofmt -l .)
+      if [ -n "$fmt_out" ]; then
+        echo "The following files are not formatted:" >&2
+        echo "$fmt_out" >&2
+        exit 1
+      fi
+  - name: go vet
+    run: go vet ./...
+    shell: bash
+  - uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0

@@ -1,0 +1,31 @@
+name: pinact
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  pinact:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      with:
+        go-version: stable
+    - name: install pinact
+      run: go install github.com/suzuki-shunsuke/pinact/v3/cmd/pinact@latest
+      shell: bash
+    - name: pin actions to SHA
+      run: pinact run -u
+      shell: bash
+    - name: Create PR
+      uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+      with:
+        token: ${{ github.token }}
+        commit-message: "chore: pin actions to SHA"
+        title: "chore: pin actions to SHA"
+        branch: chore/pinact-update
+        delete-branch: true
+        add-paths: |
+          */action.yml
+          .github/workflows/*.yml
