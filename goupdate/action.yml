@@ -26,6 +26,9 @@ runs:
       token: ${{ inputs.github-token }}
       commit-message: Update Dependencies
       title: 'auto update dependencies'
+      branch: chore/update-deps
+      delete-branch: true
       add-paths: |
         go.mod
         go.sum
+        .github/workflows/*.yml

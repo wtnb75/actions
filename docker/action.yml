@@ -82,14 +82,14 @@ runs:
       labels: |
         org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
         org.opencontainers.image.authors=${{ github.repository_owner }}
-        org.opencontainers.image.base.name=${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
+        org.opencontainers.image.base.name=${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
       tags: |
         ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
         ${{ inputs.registry }}/${{ inputs.image-name }}:latest
   - name: summary
     run: |
       cat <<EOF >> $GITHUB_STEP_SUMMARY
-        - docker pull ${{ inputs.registry }}/${{ inputs.image-name }}:${{ github.ref_name }}
+        - docker pull ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
         - image-id: ${{ steps.docker-build.outputs.imageid }}
       EOF
     shell: bash
