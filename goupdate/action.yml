@@ -9,6 +9,10 @@ inputs:
   go-test-args:
     description: "if set, run `go test <args>` after update; PR is skipped when the test fails"
     required: false
+  reviewers:
+    description: "comma or newline separated GitHub usernames to request as PR reviewers"
+    default: ${{ github.repository_owner }}
+    required: false
 runs:
   using: "composite"
   steps:
@@ -29,6 +33,7 @@ runs:
       title: 'auto update dependencies'
       branch: chore/update-deps
       delete-branch: true
+      reviewers: ${{ inputs.reviewers }}
       add-paths: |
         go.mod
         go.sum
