@@ -17,13 +17,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - run: pip install twine
-    shell: bash
   - name: deploy to pypi
-    run: twine upload ${{ inputs.file }}
+    run: uv publish --username "$UV_PUBLISH_USERNAME" --password "$UV_PUBLISH_PASSWORD" --publish-url "$UV_PUBLISH_URL" ${{ inputs.file }}
     shell: bash
     env:
-      TWINE_USERNAME: ${{ inputs.username }}
-      TWINE_PASSWORD: ${{ inputs.password }}
-      TWINE_REPOSITORY_URL: ${{ inputs.repository_url }}
-      TWINE_NON_INTERACTIVE: "1"
+      UV_PUBLISH_USERNAME: ${{ inputs.username }}
+      UV_PUBLISH_PASSWORD: ${{ inputs.password }}
+      UV_PUBLISH_URL: ${{ inputs.repository_url }}
