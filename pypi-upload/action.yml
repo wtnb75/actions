@@ -18,7 +18,9 @@ runs:
   using: "composite"
   steps:
   - name: deploy to pypi
-    run: uv publish --username "$UV_PUBLISH_USERNAME" --password "$UV_PUBLISH_PASSWORD" --publish-url "$UV_PUBLISH_URL" ${{ inputs.file }}
+    run: |
+      uv publish --username "$UV_PUBLISH_USERNAME" --password "$UV_PUBLISH_PASSWORD" \
+        --publish-url "$UV_PUBLISH_URL" ${{ inputs.file }}
     shell: bash
     env:
       UV_PUBLISH_USERNAME: ${{ inputs.username }}

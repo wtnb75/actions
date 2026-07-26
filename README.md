@@ -2,7 +2,6 @@
 
 - [wtnb75/actions/action-validator](action-validator)
 - [wtnb75/actions/docker](docker)
-- [wtnb75/actions/flake8](flake8)
 - [wtnb75/actions/golang](golang)
 - [wtnb75/actions/gotest](gotest)
 - [wtnb75/actions/goupdate](goupdate)
@@ -11,5 +10,6 @@
 - [wtnb75/actions/pypi-upload](pypi-upload)
 - [wtnb75/actions/pytest](pytest)
 - [wtnb75/actions/python](python)
+- [wtnb75/actions/pyupdate](pyupdate)
 - [wtnb75/actions/ruff](ruff)
 - [wtnb75/actions/wheel](wheel)
