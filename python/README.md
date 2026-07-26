@@ -1,6 +1,6 @@
-# python + pip install action
+# python + uv sync action
 
-install python and pip install
+install python and uv, then run `uv sync`
 
 
 ## example
@@ -13,7 +13,8 @@ jobs:
     - id: python
       uses: wtnb75/actions/python@main
       with:
-        pipinstall: value  # pip install argument
+        python-version: value  # python version
+        extra-args: value  # extra arguments for `uv sync` (e.g. &#34;--extra ssh&#34;)
     - run: |
         echo "python-version: ${{ steps.python.outputs.python-version }}"
         echo "python-path: ${{ steps.python.outputs.python-path }}"
@@ -24,7 +25,8 @@ jobs:
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| pipinstall | pip install argument | n/a | False |
+| python-version | python version | 3.x | False |
+| extra-args | extra arguments for `uv sync` (e.g. &#34;--extra ssh&#34;) | n/a | False |
 
 # Outputs
 
