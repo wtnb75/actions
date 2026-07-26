@@ -7,7 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
-    - run: mv -f _python.test/* .
+    - run: |
+        rm -rf tools
+        mv -f _python.test/* .
       shell: bash
     - uses: ./python
     - uses: ./ruff
@@ -58,7 +60,9 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@v7
-    - run: mv -f _python.test/* .
+    - run: |
+        rm -rf tools
+        mv -f _python.test/* .
       shell: bash
     - uses: ./python
     - uses: ./pyupdate
