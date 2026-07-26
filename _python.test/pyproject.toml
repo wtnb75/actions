@@ -40,6 +40,7 @@ dev = [
     "pytest-github-actions-annotate-failures",
     "ruff",
     "pdoc",
+    "pkginfo",
 ]
 
 [tool.pytest.ini_options]
