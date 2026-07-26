@@ -10,11 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v5
+    - uses: wtnb75/actions/python@main
     - id: pytest
       uses: wtnb75/actions/pytest@main
       with:
         test-readme: value  # directory contains README.md to use pytest-readme
+        benchmark: value  # use benchmark
   use-artifact:
     needs: build
     runs-on: ubuntu-latest
@@ -34,6 +35,7 @@ jobs:
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | test-readme | directory contains README.md to use pytest-readme | n/a | False |
+| benchmark | use benchmark | n/a | False |
 
 # Artifacts
 

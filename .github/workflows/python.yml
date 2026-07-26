@@ -12,9 +12,7 @@ jobs:
         mv -f _python.test/* .
       shell: bash
     - uses: ./python
-      with:
-        pipinstall: pkginfo
-    - uses: ./flake8
+    - uses: ./ruff
       with:
         dirs: "dummy tests"
     - uses: ./pytest
@@ -53,3 +51,20 @@ jobs:
     - name: show files
       run: ls -lR
       shell: bash
+
+  pyupdate-check:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: |
+        rm -rf tools
+        mv -f _python.test/* .
+      shell: bash
+    - uses: ./python
+    - uses: ./pyupdate
+      with:
+        test-args: "-xs"

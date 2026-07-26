@@ -1,0 +1,35 @@
+name: python deps update
+description: |
+  update uv.lock and make PR
+inputs:
+  github-token:
+    description: github token
+    default: ${{ github.token }}
+    required: true
+  test-args:
+    description: "if set, run `uv run pytest <args>` after update; PR is skipped when the test fails"
+    required: false
+  reviewers:
+    description: "comma or newline separated GitHub usernames to request as PR reviewers"
+    default: ${{ github.repository_owner }}
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - run: uv lock --upgrade
+    shell: bash
+  - name: test
+    if: inputs.test-args != ''
+    run: uv run pytest ${{ inputs.test-args }}
+    shell: bash
+  - name: Create PR
+    uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+    with:
+      token: ${{ inputs.github-token }}
+      commit-message: Update Python Dependencies
+      title: 'auto update dependencies'
+      branch: chore/update-deps
+      delete-branch: true
+      reviewers: ${{ inputs.reviewers }}
+      add-paths: |
+        uv.lock

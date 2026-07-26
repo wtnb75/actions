@@ -1,6 +1,6 @@
 name: wheel
 description: |
-  build python package by calling setup.py bdist_wheel
+  build python package by calling `uv build --wheel`
 inputs:
   output-dir:
     description: output directory
@@ -16,23 +16,21 @@ outputs:
 runs:
   using: "composite"
   steps:
-  - name: pip install wheel
-    run: pip install wheel build pkginfo
-    shell: bash
   - id: wheel-build
     name: build
     run: |
       tmpd=$(mktemp -d)
       mkdir -p ${{ inputs.output-dir }}
-      python -m build -w -o $tmpd
-      echo "file=$(ls -1 $tmpd)" >> "$GITHUB_OUTPUT"
-      echo "hash=$(pip hash $tmpd/*.whl | grep hash | cut -f2 -d=)" >> "$GITHUB_OUTPUT"
-      cp $tmpd/* ${{ inputs.output-dir }}/
+      uv build --wheel -o $tmpd
+      file=$(ls -1 $tmpd | grep '\.whl$')
+      echo "file=$file" >> "$GITHUB_OUTPUT"
+      echo "hash=sha256:$(sha256sum $tmpd/$file | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      cp $tmpd/$file ${{ inputs.output-dir }}/
       rm -rf $tmpd
     shell: bash
   - name: summary
     run: |
-      python ${{ github.action_path }}/wheel2md.py \
+      uv run --with pkginfo python ${{ github.action_path }}/wheel2md.py \
         ${{ inputs.output-dir }}/${{ steps.wheel-build.outputs.file }} \
         -a $GITHUB_STEP_SUMMARY
     shell: bash

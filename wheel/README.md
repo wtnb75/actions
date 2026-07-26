@@ -1,6 +1,6 @@
 # wheel action
 
-build python package by calling setup.py bdist_wheel
+build python package by calling `uv build --wheel`
 
 
 ## example
@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v5
+    - uses: wtnb75/actions/python@main
     - id: wheel
       uses: wtnb75/actions/wheel@main
       with:

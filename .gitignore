@@ -1,2 +1,3 @@
 .coverage
 cover
+__pycache__/

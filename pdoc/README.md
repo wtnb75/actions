@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v5
+    - uses: wtnb75/actions/python@main
     - id: pdoc
       uses: wtnb75/actions/pdoc@main
       with:
