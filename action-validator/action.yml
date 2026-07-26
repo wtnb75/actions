@@ -21,6 +21,10 @@ runs:
     run: |
       tmpd=$(mktemp -d)
       curl -L -o $tmpd/action-validator \
-        ${{ inputs.repo }}/releases/download/${{ inputs.version }}/action-validator_linux_amd64
+        "$REPO/releases/download/$VERSION/action-validator_linux_amd64"
       chmod +x $tmpd/action-validator
-      $tmpd/action-validator ${{ inputs.files }}
+      $tmpd/action-validator $FILES
+    env:
+      REPO: ${{ inputs.repo }}
+      VERSION: ${{ inputs.version }}
+      FILES: ${{ inputs.files }}

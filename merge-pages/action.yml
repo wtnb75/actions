@@ -16,28 +16,38 @@ runs:
   using: "composite"
   steps:
   - name: mkdir
-    run: mkdir ${{ inputs.output }}
+    run: mkdir "$OUTPUT"
     shell: bash
+    env:
+      OUTPUT: ${{ inputs.output }}
   - name: copy files
     run: |
-      for i in ${{ inputs.dirs }}; do
-        cp -r $i ${{ inputs.output }}/$i
-        rm -f ${{ inputs.output }}/$i/.gitignore
+      for i in $DIRS; do
+        cp -r "$i" "$OUTPUT/$i"
+        rm -f "$OUTPUT/$i/.gitignore"
       done
     shell: bash
+    env:
+      DIRS: ${{ inputs.dirs }}
+      OUTPUT: ${{ inputs.output }}
   - name: index python packages
     if: inputs.pydist != ''
     run: |
-      cp -r ${{ inputs.pydist }} ${{ inputs.output }}/${{ inputs.pydist }}
-      cd ${{ inputs.output }}
-      uv tool run --from pip2pi --with "setuptools<81" dir2pi -S ${{ inputs.pydist }}
-      uvx --from dirindex dirindex make --template apache --hide index.html --recursive ${{ inputs.pydist }}
+      cp -r "$PYDIST" "$OUTPUT/$PYDIST"
+      cd "$OUTPUT"
+      uv tool run --from pip2pi --with "setuptools<81" dir2pi -S "$PYDIST"
+      uvx --from dirindex dirindex make --template apache --hide index.html --recursive "$PYDIST"
     shell: bash
+    env:
+      PYDIST: ${{ inputs.pydist }}
+      OUTPUT: ${{ inputs.output }}
   - name: index
     run: |
-      cd ${{ inputs.output }}
+      cd "$OUTPUT"
       uvx --from dirindex dirindex make --template apache --hide index.html .
     shell: bash
+    env:
+      OUTPUT: ${{ inputs.output }}
   - name: merged pages
     uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
     with:

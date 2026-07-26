@@ -20,20 +20,24 @@ runs:
     name: build
     run: |
       tmpd=$(mktemp -d)
-      mkdir -p ${{ inputs.output-dir }}
+      mkdir -p "$OUTPUT_DIR"
       uv build --wheel -o $tmpd
       file=$(ls -1 $tmpd | grep '\.whl$')
       echo "file=$file" >> "$GITHUB_OUTPUT"
       echo "hash=sha256:$(sha256sum $tmpd/$file | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-      cp $tmpd/$file ${{ inputs.output-dir }}/
+      cp $tmpd/$file "$OUTPUT_DIR"/
       rm -rf $tmpd
     shell: bash
+    env:
+      OUTPUT_DIR: ${{ inputs.output-dir }}
   - name: summary
     run: |
       uv run --with pkginfo python ${{ github.action_path }}/wheel2md.py \
-        ${{ inputs.output-dir }}/${{ steps.wheel-build.outputs.file }} \
+        "$OUTPUT_DIR/${{ steps.wheel-build.outputs.file }}" \
         -a $GITHUB_STEP_SUMMARY
     shell: bash
+    env:
+      OUTPUT_DIR: ${{ inputs.output-dir }}
   - name: wheel artifact
     uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
     with:
