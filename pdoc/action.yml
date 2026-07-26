@@ -15,7 +15,7 @@ runs:
   using: "composite"
   steps:
   - name: generate
-    run: uv run pdoc -o "$OUTPUT_DIR" $MODULE $OTHER_OPTIONS
+    run: uv run pdoc -o "$OUTPUT_DIR" "$MODULE" $OTHER_OPTIONS
     shell: bash
     env:
       OUTPUT_DIR: ${{ inputs.output-dir }}
