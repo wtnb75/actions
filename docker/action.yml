@@ -63,7 +63,10 @@ runs:
     if: inputs.image-version != ''
     shell: bash
     run: |
-      echo LABEL org.opencontainers.image.version=\"${{ inputs.image-version }}\" >> ${{ inputs.context }}/Dockerfile
+      echo LABEL org.opencontainers.image.version=\"$IMAGE_VERSION\" >> "$CONTEXT/Dockerfile"
+    env:
+      IMAGE_VERSION: ${{ inputs.image-version }}
+      CONTEXT: ${{ inputs.context }}
   - id: tag
     name: sanitize ref name for docker tag
     shell: bash
@@ -89,7 +92,10 @@ runs:
   - name: summary
     run: |
       cat <<EOF >> $GITHUB_STEP_SUMMARY
-        - docker pull ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
+        - docker pull $REGISTRY/$IMAGE_NAME:${{ steps.tag.outputs.tag }}
         - image-id: ${{ steps.docker-build.outputs.imageid }}
       EOF
     shell: bash
+    env:
+      REGISTRY: ${{ inputs.registry }}
+      IMAGE_NAME: ${{ inputs.image-name }}

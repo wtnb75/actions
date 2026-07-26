@@ -22,8 +22,10 @@ runs:
     shell: bash
   - name: test
     if: inputs.go-test-args != ''
-    run: go test ${{ inputs.go-test-args }}
+    run: go test $GO_TEST_ARGS
     shell: bash
+    env:
+      GO_TEST_ARGS: ${{ inputs.go-test-args }}
   - name: Create PR
     uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:

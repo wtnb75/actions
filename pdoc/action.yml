@@ -15,8 +15,12 @@ runs:
   using: "composite"
   steps:
   - name: generate
-    run: uv run pdoc -o ${{ inputs.output-dir }} ${{ inputs.module }} ${{ inputs.other-options }}
+    run: uv run pdoc -o "$OUTPUT_DIR" $MODULE $OTHER_OPTIONS
     shell: bash
+    env:
+      OUTPUT_DIR: ${{ inputs.output-dir }}
+      MODULE: ${{ inputs.module }}
+      OTHER_OPTIONS: ${{ inputs.other-options }}
   - name: document data
     uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
     with:

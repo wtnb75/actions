@@ -14,11 +14,13 @@ runs:
   - name: pytest-readme
     if: inputs.test-readme != ''
     run: |
-      if [ -f ${{ inputs.test-readme }}/README.md ] ; then
-        echo 'from pytest_readme import setup' > ${{ inputs.test-readme }}/conftest.py
-        echo 'setup()' >> ${{ inputs.test-readme }}/conftest.py
+      if [ -f "$TEST_README/README.md" ] ; then
+        echo 'from pytest_readme import setup' > "$TEST_README/conftest.py"
+        echo 'setup()' >> "$TEST_README/conftest.py"
       fi
     shell: bash
+    env:
+      TEST_README: ${{ inputs.test-readme }}
   - name: test
     run: PYTHONPATH=. uv run pytest -xs
     shell: bash

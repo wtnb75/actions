@@ -21,8 +21,10 @@ runs:
     with:
       enable-cache: true
   - name: uv sync
-    run: uv sync ${{ inputs.extra-args }}
+    run: uv sync $EXTRA_ARGS
     shell: bash
+    env:
+      EXTRA_ARGS: ${{ inputs.extra-args }}
 outputs:
   python-version:
     description: python version string

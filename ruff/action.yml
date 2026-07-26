@@ -10,8 +10,12 @@ runs:
   using: "composite"
   steps:
   - name: check
-    run: uv run ruff check --output-format=github ${{ inputs.dirs }}
+    run: uv run ruff check --output-format=github $DIRS
     shell: bash
+    env:
+      DIRS: ${{ inputs.dirs }}
   - name: format
-    run: uv run ruff format --check --diff ${{ inputs.dirs }}
+    run: uv run ruff format --check --diff $DIRS
     shell: bash
+    env:
+      DIRS: ${{ inputs.dirs }}
