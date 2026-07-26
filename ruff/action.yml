@@ -9,12 +9,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: pip install ruff
-    run: pip install ruff
-    shell: bash
   - name: check
-    run: ruff check --output-format=github ${{ inputs.dirs }}
+    run: uv run ruff check --output-format=github ${{ inputs.dirs }}
     shell: bash
   - name: format
-    run: ruff format --check --diff ${{ inputs.dirs }}
+    run: uv run ruff format --check --diff ${{ inputs.dirs }}
     shell: bash

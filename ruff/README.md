@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v5
     - id: ruff
       uses: wtnb75/actions/ruff@main
       with:
