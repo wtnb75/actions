@@ -25,21 +25,18 @@ runs:
         rm -f ${{ inputs.output }}/$i/.gitignore
       done
     shell: bash
-  - name: pip install pip2pi dirindex setuptools
-    run: pip install pip2pi dirindex setuptools
-    shell: bash
   - name: index python packages
     if: inputs.pydist != ''
     run: |
       cp -r ${{ inputs.pydist }} ${{ inputs.output }}/${{ inputs.pydist }}
       cd ${{ inputs.output }}
-      dir2pi -S ${{ inputs.pydist }}
-      dirindex make --template apache --hide index.html --recursive ${{ inputs.pydist }}
+      uv tool run --from pip2pi --with "setuptools<81" dir2pi -S ${{ inputs.pydist }}
+      uvx --from dirindex dirindex make --template apache --hide index.html --recursive ${{ inputs.pydist }}
     shell: bash
   - name: index
     run: |
       cd ${{ inputs.output }}
-      dirindex make --template apache --hide index.html .
+      uvx --from dirindex dirindex make --template apache --hide index.html .
     shell: bash
   - name: merged pages
     uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
