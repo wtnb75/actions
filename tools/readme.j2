@@ -12,7 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-{%- if "pip" in stepstr and "setup-python" not in stepstr %}
+{%- if "uv " in stepstr and filename != "python" %}
+    - uses: wtnb75/actions/python@main
+{%- elif "pip install" in stepstr and "setup-python" not in stepstr %}
     - uses: actions/setup-python@v5
 {%- endif %}
 {%- if "mvn" in stepstr or "gradle" in stepstr and "setup-java" not in stepstr %}

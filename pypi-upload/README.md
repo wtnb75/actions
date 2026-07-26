@@ -9,6 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: wtnb75/actions/python@main
     - id: pypi-upload
       uses: wtnb75/actions/pypi-upload@main
       with:

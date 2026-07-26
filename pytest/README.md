@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: wtnb75/actions/python@main
     - id: pytest
       uses: wtnb75/actions/pytest@main
       with:
