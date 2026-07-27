@@ -1,0 +1,26 @@
+name: vitest
+description: |
+  test by vitest (via `pnpm run test` / `pnpm run test:coverage`); does nothing
+  (and does not fail) if the repository has no matching script
+inputs:
+  working-directory:
+    description: directory containing package.json
+    default: "."
+    required: false
+  coverage:
+    description: "if true, run `test:coverage` instead of `test`"
+    default: "false"
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - name: test
+    if: inputs.coverage != 'true'
+    run: pnpm run --if-present test
+    shell: bash
+    working-directory: ${{ inputs.working-directory }}
+  - name: test with coverage
+    if: inputs.coverage == 'true'
+    run: pnpm run --if-present test:coverage
+    shell: bash
+    working-directory: ${{ inputs.working-directory }}
