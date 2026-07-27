@@ -10,7 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-go@v5
     - uses: wtnb75/actions/rust@main
     - id: cargotest
       uses: wtnb75/actions/cargotest@main
