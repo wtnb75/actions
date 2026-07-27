@@ -21,9 +21,9 @@ jobs:
     - uses: actions/checkout@v7
     - run: mv -f _node.test/* .
       shell: bash
+    - uses: ./node
     - run: pnpm pkg delete scripts.test scripts.test:coverage
       shell: bash
-    - uses: ./node
     - name: vitest (no test script, must succeed)
       uses: ./vitest
     - name: vitest with coverage (no test:coverage script, must succeed)
