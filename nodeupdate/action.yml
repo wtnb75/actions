@@ -11,7 +11,9 @@ inputs:
     default: "."
     required: false
   test-args:
-    description: "if set, run `pnpm run <args>` after update; PR is skipped when it fails. omit this entirely for repos with no matching script"
+    description: >-
+      if set, run `pnpm run <args>` after update; PR is skipped when it fails.
+      omit this entirely for repos with no matching script
     required: false
   reviewers:
     description: "comma or newline separated GitHub usernames to request as PR reviewers"
