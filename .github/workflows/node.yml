@@ -1,0 +1,47 @@
+name: test node related actions
+on:
+  push: {}
+  workflow_dispatch: {}
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _node.test/* .
+      shell: bash
+    - uses: ./node
+    - uses: ./eslint
+    - uses: ./vitest
+      with:
+        coverage: "true"
+
+  vitest-no-test-script:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _node.test/* .
+      shell: bash
+    - uses: ./node
+    - run: pnpm pkg delete scripts.test scripts.test:coverage
+      shell: bash
+    - name: vitest (no test script, must succeed)
+      uses: ./vitest
+    - name: vitest with coverage (no test:coverage script, must succeed)
+      uses: ./vitest
+      with:
+        coverage: "true"
+
+  nodeupdate-check:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _node.test/* .
+      shell: bash
+    - uses: ./node
+    - uses: ./nodeupdate
+      with:
+        test-args: test

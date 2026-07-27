@@ -20,7 +20,9 @@ jobs:
 {%- if "mvn" in stepstr or "gradle" in stepstr and "setup-java" not in stepstr %}
     - uses: actions/setup-java@v4
 {%- endif %}
-{%- if "npm" in stepstr and "setup-node" not in stepstr %}
+{%- if "pnpm " in stepstr and filename != "node" %}
+    - uses: wtnb75/actions/node@main
+{%- elif "npm " in stepstr and "setup-node" not in stepstr %}
     - uses: actions/setup-node@v4
 {%- endif %}
 {%- if "go " in stepstr and "setup-go" not in stepstr %}
