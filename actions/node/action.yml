@@ -1,0 +1,25 @@
+name: node/pnpm setup
+description: |
+  install pnpm and node, then run `pnpm install --frozen-lockfile`
+inputs:
+  working-directory:
+    description: directory containing package.json
+    default: "."
+    required: false
+  node-version:
+    description: node version
+    default: "lts/*"
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - uses: pnpm/action-setup@v6
+  - uses: actions/setup-node@v7
+    with:
+      node-version: ${{ inputs.node-version }}
+      cache: pnpm
+      cache-dependency-path: ${{ inputs.working-directory }}/pnpm-lock.yaml
+  - name: pnpm install
+    run: pnpm install --frozen-lockfile
+    shell: bash
+    working-directory: ${{ inputs.working-directory }}
