@@ -25,9 +25,11 @@ runs:
     working-directory: ${{ inputs.working-directory }}
   - name: test
     if: inputs.test-args != ''
-    run: pnpm run ${{ inputs.test-args }}
+    run: pnpm run $TEST_ARGS
     shell: bash
     working-directory: ${{ inputs.working-directory }}
+    env:
+      TEST_ARGS: ${{ inputs.test-args }}
   - name: Create PR
     uses: peter-evans/create-pull-request@v8
     with:
