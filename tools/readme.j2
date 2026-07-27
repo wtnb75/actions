@@ -28,6 +28,9 @@ jobs:
 {%- if "go " in stepstr and "setup-go" not in stepstr %}
     - uses: actions/setup-go@v5
 {%- endif %}
+{%- if "cargo " in stepstr and filename != "rust" %}
+    - uses: wtnb75/actions/rust@main
+{%- endif %}
     - id: {{ filename }}
       uses: wtnb75/actions/{{ filename }}@main
 {%- if inputs is defined and inputs|length != 0 %}
