@@ -6,7 +6,7 @@ jobs:
   node:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - run: mv -f _node.test/* .
       shell: bash
     - uses: ./node
@@ -18,7 +18,7 @@ jobs:
   vitest-no-test-script:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - run: mv -f _node.test/* .
       shell: bash
     - uses: ./node
@@ -38,7 +38,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - run: mv -f _node.test/* .
       shell: bash
     - uses: ./node
