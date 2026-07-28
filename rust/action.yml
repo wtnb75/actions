@@ -1,0 +1,16 @@
+name: rust setup + fmt/clippy
+description: |
+  setup rust stable toolchain, then run cargo fmt --check / cargo clippy
+runs:
+  using: "composite"
+  steps:
+  - uses: dtolnay/rust-toolchain@stable
+    with:
+      components: rustfmt, clippy
+  - uses: Swatinem/rust-cache@23869a5bd66c73db3c0ac40331f3206eb23791dc # v2.9.1
+  - name: cargo fmt
+    run: cargo fmt --check
+    shell: bash
+  - name: cargo clippy
+    run: cargo clippy -- -D warnings
+    shell: bash

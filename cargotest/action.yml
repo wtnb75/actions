@@ -1,0 +1,27 @@
+name: cargo test + coverage
+description: |
+  run cargo test with coverage via cargo-llvm-cov
+inputs:
+  html-output-dir:
+    description: coverage HTML report output directory
+    default: coverage
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - uses: taiki-e/install-action@41049aa56687c35e0afa74eed4f09cec4f9afabf # v2.85.2
+    with:
+      tool: cargo-llvm-cov
+  - name: test + coverage
+    run: |
+      cargo llvm-cov --html --output-dir "$HTML_OUTPUT_DIR"
+      {
+        echo "## coverage report"
+        echo
+        echo '```'
+        cargo llvm-cov report
+        echo '```'
+      } >> "$GITHUB_STEP_SUMMARY"
+    shell: bash
+    env:
+      HTML_OUTPUT_DIR: ${{ inputs.html-output-dir }}

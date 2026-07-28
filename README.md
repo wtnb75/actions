@@ -1,6 +1,8 @@
 # wtnb75 common github actions
 
 - [wtnb75/actions/action-validator](action-validator)
+- [wtnb75/actions/cargotest](cargotest)
+- [wtnb75/actions/crates-publish](crates-publish)
 - [wtnb75/actions/docker](docker)
 - [wtnb75/actions/eslint](eslint)
 - [wtnb75/actions/golang](golang)
@@ -15,5 +17,7 @@
 - [wtnb75/actions/python](python)
 - [wtnb75/actions/pyupdate](pyupdate)
 - [wtnb75/actions/ruff](ruff)
+- [wtnb75/actions/rust](rust)
+- [wtnb75/actions/rustupdate](rustupdate)
 - [wtnb75/actions/vitest](vitest)
 - [wtnb75/actions/wheel](wheel)

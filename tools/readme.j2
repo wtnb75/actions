@@ -25,8 +25,11 @@ jobs:
 {%- elif "npm " in stepstr and "setup-node" not in stepstr %}
     - uses: actions/setup-node@v4
 {%- endif %}
-{%- if "go " in stepstr and "setup-go" not in stepstr %}
+{%- if "go " in stepstr and "setup-go" not in stepstr and "cargo " not in stepstr %}
     - uses: actions/setup-go@v5
+{%- endif %}
+{%- if "cargo " in stepstr and filename != "rust" %}
+    - uses: wtnb75/actions/rust@main
 {%- endif %}
     - id: {{ filename }}
       uses: wtnb75/actions/{{ filename }}@main

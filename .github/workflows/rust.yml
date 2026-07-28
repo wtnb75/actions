@@ -1,0 +1,39 @@
+name: test rust related actions
+on:
+  push: {}
+  workflow_dispatch: {}
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _rust.test/* .
+      shell: bash
+    - uses: ./rust
+    - uses: ./cargotest
+      with:
+        html-output-dir: coverage
+    - name: cargo doc
+      run: |
+        cargo doc --no-deps
+        mv target/doc docs
+      shell: bash
+    - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+    - uses: ./merge-pages
+      with:
+        dirs: "docs coverage"
+
+  rustupdate-check:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _rust.test/* .
+      shell: bash
+    - uses: ./rust
+    - uses: ./rustupdate
+      with:
+        test-args: "--verbose"
