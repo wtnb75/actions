@@ -14,15 +14,15 @@ jobs:
     - id: rustupdate
       uses: wtnb75/actions/rustupdate@main
       with:
-        github-token: value  #  (REQUIRED)
+        github-token: value  # github token (REQUIRED)
         test-args: value  # if set, run `cargo test $TEST_ARGS` after update; PR is skipped when the test fails
-        reviewers: value  # 
+        reviewers: value  # comma or newline separated GitHub usernames to request as PR reviewers
 ```
 
 # Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| github-token |  | ${{ github.token }} | True |
+| github-token | github token | ${{ github.token }} | True |
 | test-args | if set, run `cargo test $TEST_ARGS` after update; PR is skipped when the test fails | n/a | False |
-| reviewers |  | ${{ github.repository_owner }} | False |
+| reviewers | comma or newline separated GitHub usernames to request as PR reviewers | ${{ github.repository_owner }} | False |
