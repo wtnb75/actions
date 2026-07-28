@@ -1,5 +1,8 @@
 version: 3
 
+ignore_actions:
+  - name: dtolnay/rust-toolchain
+
 rules:
   - ignore: true
     conditions:
