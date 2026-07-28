@@ -15,7 +15,13 @@ runs:
   - name: test + coverage
     run: |
       cargo llvm-cov --html --output-dir "$HTML_OUTPUT_DIR"
-      cargo llvm-cov report >> "$GITHUB_STEP_SUMMARY"
+      {
+        echo "## coverage report"
+        echo
+        echo '```'
+        cargo llvm-cov report
+        echo '```'
+      } >> "$GITHUB_STEP_SUMMARY"
     shell: bash
     env:
       HTML_OUTPUT_DIR: ${{ inputs.html-output-dir }}
