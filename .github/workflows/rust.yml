@@ -1,4 +1,3 @@
-# .github/workflows/rust.yml
 name: test rust related actions
 on:
   push: {}
