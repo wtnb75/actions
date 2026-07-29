@@ -1,0 +1,37 @@
+# flutterupdate/action.yml
+name: flutter deps update
+description: |
+  upgrade pubspec.yaml dependency versions and make PR
+inputs:
+  github-token:
+    default: ${{ github.token }}
+    required: true
+  test-args:
+    description: "if set, run `flutter test $TEST_ARGS` after update; PR is skipped when the test fails"
+    required: false
+  reviewers:
+    default: ${{ github.repository_owner }}
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - run: flutter pub upgrade --major-versions
+    shell: bash
+  - name: test
+    if: inputs.test-args != ''
+    run: flutter test $TEST_ARGS
+    shell: bash
+    env:
+      TEST_ARGS: ${{ inputs.test-args }}
+  - name: Create PR
+    uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+    with:
+      token: ${{ inputs.github-token }}
+      commit-message: Update Flutter Dependencies
+      title: 'auto update dependencies'
+      branch: chore/update-deps
+      delete-branch: true
+      reviewers: ${{ inputs.reviewers }}
+      add-paths: |
+        pubspec.yaml
+        pubspec.lock
