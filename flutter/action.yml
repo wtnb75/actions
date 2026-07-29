@@ -1,0 +1,26 @@
+name: flutter setup + analyze
+description: |
+  setup flutter (web-only), regenerate gitignored platform boilerplate via
+  `flutter create .`, then run `flutter analyze`
+inputs:
+  channel:
+    description: flutter channel
+    default: stable
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - name: cache flutter
+    uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+    with:
+      path: /opt/hostedtoolcache/flutter
+      key: ${{ runner.os }}-flutter-${{ inputs.channel }}
+  - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+    with:
+      channel: ${{ inputs.channel }}
+  - name: setup project
+    run: flutter create .
+    shell: bash
+  - name: analyze
+    run: flutter analyze
+    shell: bash
