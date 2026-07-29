@@ -31,6 +31,9 @@ jobs:
 {%- if "cargo " in stepstr and filename != "rust" %}
     - uses: wtnb75/actions/rust@main
 {%- endif %}
+{%- if "flutter " in stepstr and filename != "flutter" %}
+    - uses: wtnb75/actions/flutter@main
+{%- endif %}
     - id: {{ filename }}
       uses: wtnb75/actions/{{ filename }}@main
 {%- if inputs is defined and inputs|length != 0 %}
