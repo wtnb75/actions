@@ -2,6 +2,7 @@ version: 3
 
 ignore_actions:
   - name: dtolnay/rust-toolchain
+    ref: .*
 
 rules:
   - ignore: true
