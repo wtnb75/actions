@@ -1,0 +1,33 @@
+# flutterbuild/action.yml
+name: flutter web build
+description: |
+  build flutter web release, embed coverage html report if present, ready
+  for actions/upload-pages-artifact
+inputs:
+  base-href:
+    description: web base href (e.g. "/reponame/")
+    required: true
+  coverage-dir:
+    description: coverage html directory to embed at build/web/coverage (skipped if empty or missing)
+    default: coverage/html
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - name: build web
+    run: flutter build web --wasm --base-href "$BASE_HREF" --no-tree-shake-icons
+    shell: bash
+    env:
+      BASE_HREF: ${{ inputs.base-href }}
+  - name: disable jekyll
+    run: touch build/web/.nojekyll
+    shell: bash
+  - name: embed coverage report
+    if: inputs.coverage-dir != ''
+    shell: bash
+    run: |
+      if [ -d "$COVERAGE_DIR" ]; then
+        cp -r "$COVERAGE_DIR" build/web/coverage
+      fi
+    env:
+      COVERAGE_DIR: ${{ inputs.coverage-dir }}

@@ -1,0 +1,33 @@
+# fluttertest/action.yml
+name: flutter test + coverage
+description: |
+  run flutter test with coverage, emit lcov summary + html report
+inputs:
+  html-output-dir:
+    description: coverage HTML report output directory
+    default: coverage/html
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - name: prepare
+    run: sudo apt-get install -y lcov
+    shell: bash
+  - name: test
+    run: flutter test --coverage
+    shell: bash
+  - name: coverage summary
+    shell: bash
+    run: |
+      {
+        echo "## coverage report"
+        echo
+        echo '```'
+        lcov -l coverage/lcov.info
+        echo '```'
+      } >> "$GITHUB_STEP_SUMMARY"
+  - name: coverage html
+    run: genhtml coverage/lcov.info -o "$HTML_OUTPUT_DIR"
+    shell: bash
+    env:
+      HTML_OUTPUT_DIR: ${{ inputs.html-output-dir }}

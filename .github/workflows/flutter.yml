@@ -1,0 +1,32 @@
+# .github/workflows/flutter.yml
+name: test flutter related actions
+on:
+  push: {}
+  workflow_dispatch: {}
+jobs:
+  flutter:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _flutter.test/* .
+      shell: bash
+    - uses: ./flutter
+    - uses: ./fluttertest
+    - uses: ./flutterbuild
+      with:
+        base-href: "/actions-flutter-test/"
+
+  flutterupdate-check:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - run: mv -f _flutter.test/* .
+      shell: bash
+    - uses: ./flutter
+    - uses: ./flutterupdate
+      with:
+        test-args: "-r compact"
