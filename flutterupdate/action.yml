@@ -4,12 +4,14 @@ description: |
   upgrade pubspec.yaml dependency versions and make PR
 inputs:
   github-token:
+    description: github token
     default: ${{ github.token }}
     required: true
   test-args:
     description: "if set, run `flutter test $TEST_ARGS` after update; PR is skipped when the test fails"
     required: false
   reviewers:
+    description: "comma or newline separated GitHub usernames to request as PR reviewers"
     default: ${{ github.repository_owner }}
     required: false
 runs:
