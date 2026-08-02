@@ -18,6 +18,12 @@ runs:
   steps:
   - run: uv lock --upgrade
     shell: bash
+  - name: ruff check
+    run: uv run ruff check --output-format=github .
+    shell: bash
+  - name: ruff format check
+    run: uv run ruff format --check --diff .
+    shell: bash
   - name: test
     if: inputs.test-args != ''
     run: uv run pytest $TEST_ARGS
