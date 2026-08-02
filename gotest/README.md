@@ -15,6 +15,7 @@ jobs:
       uses: wtnb75/actions/gotest@main
       with:
         tags: value  # space-separated build tags to test additionally (e.g. &#39;wasmer wasmtime docker wazero&#39;)
+        html-output-dir: value  # coverage HTML report output directory
 ```
 
 # Inputs
@@ -22,3 +23,4 @@ jobs:
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | tags | space-separated build tags to test additionally (e.g. &#39;wasmer wasmtime docker wazero&#39;) | n/a | False |
+| html-output-dir | coverage HTML report output directory | coverage | False |
