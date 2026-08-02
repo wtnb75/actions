@@ -43,3 +43,4 @@ runs:
       reviewers: ${{ inputs.reviewers }}
       add-paths: |
         ${{ inputs.working-directory }}/pnpm-lock.yaml
+        ${{ inputs.working-directory }}/package.json
