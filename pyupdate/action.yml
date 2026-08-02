@@ -9,6 +9,10 @@ inputs:
   test-args:
     description: "if set, run `uv run pytest <args>` after update; PR is skipped when the test fails"
     required: false
+  dirs:
+    required: false
+    description: directories to ruff-check/format
+    default: .
   reviewers:
     description: "comma or newline separated GitHub usernames to request as PR reviewers"
     default: ${{ github.repository_owner }}
@@ -19,11 +23,15 @@ runs:
   - run: uv lock --upgrade
     shell: bash
   - name: ruff check
-    run: uv run ruff check --output-format=github .
+    run: uv run ruff check --output-format=github $DIRS
     shell: bash
+    env:
+      DIRS: ${{ inputs.dirs }}
   - name: ruff format check
-    run: uv run ruff format --check --diff .
+    run: uv run ruff format --check --diff $DIRS
     shell: bash
+    env:
+      DIRS: ${{ inputs.dirs }}
   - name: test
     if: inputs.test-args != ''
     run: uv run pytest $TEST_ARGS
