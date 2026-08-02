@@ -1,29 +1,40 @@
-from pkginfo import Wheel
 import argparse
-import sys
+import contextlib
 import re
+import sys
+
+from pkginfo import Wheel
 
 
 def escape_markdown(s: str) -> str:
-    return re.sub(r'([_*~`])', r'\\\1', s)
+    return re.sub(r"([_*~`])", r"\\\1", s)
+
+
+@contextlib.contextmanager
+def open_output(args):
+    if args.output:
+        with open(args.output, "w") as f:
+            yield f
+    elif args.append:
+        with open(args.append, "a+") as f:
+            yield f
+    else:
+        yield sys.stdout
 
 
 def main():
     parser = argparse.ArgumentParser(
         prog="wheel2md",
-        description="wheel to markdown",)
+        description="wheel to markdown",
+    )
     parser.add_argument("filename")
     parser.add_argument("-o", "--output", action="store")
     parser.add_argument("-a", "--append", action="store")
     args = parser.parse_args()
-    if args.output:
-        ofp = open(args.output, "w")
-    elif args.append:
-        ofp = open(args.append, "a+")
-    else:
-        ofp = sys.stdout
     pkg = Wheel(args.filename)
-    print(f"""
+    with open_output(args) as ofp:
+        print(
+            f"""
 ## package {pkg.name}
 
 |      | description |
@@ -37,7 +48,9 @@ def main():
 | Author | {pkg.author} <<{pkg.author_email}>> |
 | Classifiers | {"<br/>".join(pkg.classifiers)} |
 | Requires | {"<br />".join(pkg.requires_dist)} |
-""", file=ofp)
+""",
+            file=ofp,
+        )
 
 
 if __name__ == "__main__":
