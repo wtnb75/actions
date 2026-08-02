@@ -67,4 +67,5 @@ jobs:
     - uses: ./python
     - uses: ./pyupdate
       with:
+        dirs: "dummy tests"
         test-args: "-xs"
