@@ -40,14 +40,16 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - name: move fixture into place and commit it
+    - name: move fixture into place on a synced scratch branch
       shell: bash
       run: |
         mv -f _go.test/* .
         git config user.name github-actions
         git config user.email github-actions@github.com
+        git checkout -b _gofix-check-scratch
         git add -A
         git commit -m "test: move dummy fixture into place"
+        git push -f origin _gofix-check-scratch
     - uses: ./golang
     - uses: ./gofix
       with:
