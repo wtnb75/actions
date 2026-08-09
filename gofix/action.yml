@@ -1,0 +1,39 @@
+name: go fix
+description: |
+  run `go fix` to rewrite deprecated API usage, then make PR
+inputs:
+  github-token:
+    description: github token
+    default: ${{ github.token }}
+    required: true
+  go-test-args:
+    description: "if set, run `go test <args>` after fix; PR is skipped when the test fails"
+    required: false
+  reviewers:
+    description: "comma or newline separated GitHub usernames to request as PR reviewers"
+    default: ${{ github.repository_owner }}
+    required: false
+  branch:
+    description: "PR branch name"
+    default: chore/go-fix
+    required: false
+runs:
+  using: "composite"
+  steps:
+  - run: go fix ./...
+    shell: bash
+  - name: test
+    if: inputs.go-test-args != ''
+    run: go test $GO_TEST_ARGS
+    shell: bash
+    env:
+      GO_TEST_ARGS: ${{ inputs.go-test-args }}
+  - name: Create PR
+    uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+    with:
+      token: ${{ inputs.github-token }}
+      commit-message: "go fix"
+      title: 'auto go fix'
+      branch: ${{ inputs.branch }}
+      delete-branch: true
+      reviewers: ${{ inputs.reviewers }}
