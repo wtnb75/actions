@@ -9,6 +9,7 @@
 - [wtnb75/actions/flutterbuild](flutterbuild)
 - [wtnb75/actions/fluttertest](fluttertest)
 - [wtnb75/actions/flutterupdate](flutterupdate)
+- [wtnb75/actions/gofix](gofix)
 - [wtnb75/actions/golang](golang)
 - [wtnb75/actions/gotest](gotest)
 - [wtnb75/actions/goupdate](goupdate)
