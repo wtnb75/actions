@@ -40,8 +40,14 @@ jobs:
       pull-requests: write
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-    - run: mv -f _go.test/* .
+    - name: move fixture into place and commit it
       shell: bash
+      run: |
+        mv -f _go.test/* .
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add -A
+        git commit -m "test: move dummy fixture into place"
     - uses: ./golang
     - uses: ./gofix
       with:
