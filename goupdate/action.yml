@@ -20,7 +20,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - run: go get -u
+  - run: go get -u ./...
     shell: bash
   - run: go mod tidy
     shell: bash
