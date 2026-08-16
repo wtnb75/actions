@@ -22,9 +22,6 @@ jobs:
         echo "<!DOCTYPE html><meta http-equiv=\"refresh\" content=\"0; url=${crate}/index.html\">" \
           > docs/index.html
       shell: bash
-    - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
-      with:
-        enable-cache: false
     - uses: ./merge-pages
       with:
         dirs: "docs coverage"
