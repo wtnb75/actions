@@ -9,7 +9,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - uses: taiki-e/install-action@37f7c5781271959fb65b6b35224e28652ff2b63d # v2.87.0
+  - uses: taiki-e/install-action@7b8d4719ee4aaa279bdf55df38dacb9ebfe12a6c # v2.87.6
     with:
       tool: cargo-llvm-cov
   - name: test + coverage
