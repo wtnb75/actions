@@ -13,16 +13,24 @@ runs:
   using: "composite"
   steps:
   - name: test (default)
+    id: test
+    continue-on-error: true
     run: go test -v ./... -coverprofile=cover.out -covermode=atomic -coverpkg=./... -json > report.json
     shell: bash
   - name: test (extra build tags)
+    id: test-tags
     if: inputs.tags != ''
+    continue-on-error: true
     shell: bash
     run: |
+      set +e
+      fail=0
       for t in $TAGS; do
         go test -tags "$t" -v ./... -coverprofile=cover.out.$t -covermode=atomic -coverpkg=./... -json >> report.json
+        [ $? -ne 0 ] && fail=1
         tail -q -n +2 cover.out.$t >> cover.out
       done
+      exit $fail
     env:
       TAGS: ${{ inputs.tags }}
   - uses: becheran/go-testreport@90efc1ce13c872f23d6bc8a069527c26288b8f9c # v0.3.2
@@ -45,3 +53,14 @@ runs:
       go tool cover -html=cover.out -o "$HTML_OUTPUT_DIR/index.html"
     env:
       HTML_OUTPUT_DIR: ${{ inputs.html-output-dir }}
+  - name: fail if tests failed
+    if: always()
+    shell: bash
+    run: |
+      if [ "$TEST_OUTCOME" = "failure" ] || [ "$TEST_TAGS_OUTCOME" = "failure" ]; then
+        echo "::error::go test failed" >&2
+        exit 1
+      fi
+    env:
+      TEST_OUTCOME: ${{ steps.test.outcome }}
+      TEST_TAGS_OUTCOME: ${{ steps.test-tags.outcome }}
