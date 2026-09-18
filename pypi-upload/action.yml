@@ -2,11 +2,11 @@ name: pypi upload
 description: upload file to pypi
 inputs:
   username:
-    description: pypi userrname
+    description: pypi username (use `__token__` when authenticating with an API token)
     required: true
-    default: ${{ github.actor }}
+    default: __token__
   password:
-    description: pypi password
+    description: pypi password (or API token value when username is `__token__`)
     required: true
   repository_url:
     description: pypi url
