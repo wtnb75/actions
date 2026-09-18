@@ -20,7 +20,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - run: cargo install cargo-edit --locked
+  - run: cargo install cargo-edit --version 0.13.13 --locked
     shell: bash
   - run: cargo upgrade --incompatible allow
     shell: bash

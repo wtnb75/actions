@@ -38,8 +38,8 @@ runs:
     run: |
       cp -r "$PYDIST" "$OUTPUT/$PYDIST"
       cd "$OUTPUT"
-      uv tool run --from pip2pi --with "setuptools<81" dir2pi -S "$PYDIST"
-      uvx --from dirindex dirindex make --template apache --hide index.html --recursive "$PYDIST"
+      uv tool run --from pip2pi==0.8.2 --with "setuptools<81" dir2pi -S "$PYDIST"
+      uvx --from dirindex==0.4 dirindex make --template apache --hide index.html --recursive "$PYDIST"
     shell: bash
     env:
       PYDIST: ${{ inputs.pydist }}
@@ -47,7 +47,7 @@ runs:
   - name: index
     run: |
       cd "$OUTPUT"
-      uvx --from dirindex dirindex make --template apache --hide index.html .
+      uvx --from dirindex==0.4 dirindex make --template apache --hide index.html .
     shell: bash
     env:
       OUTPUT: ${{ inputs.output }}
