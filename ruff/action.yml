@@ -3,7 +3,7 @@ description: |
   lint by ruff
 inputs:
   dirs:
-    required: true
+    required: false
     description: directories
     default: .
 runs:

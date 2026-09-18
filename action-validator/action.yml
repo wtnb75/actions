@@ -5,18 +5,18 @@ inputs:
   files:
     description: target yaml files
     default: .github/workflows/*.y*ml
-    required: true
+    required: false
   repo:
     description: actions-validator repository
     default: https://github.com/mpalmer/action-validator
   version:
     description: actions-validator version
     default: v0.5.3
-    required: true
+    required: false
   sha256:
     description: expected sha256 checksum of the action-validator_linux_amd64 binary for the pinned version
     default: deaa5dc8c6d3f3498c83b0d01c610ac430034d803746af056bd3b0041ad14781
-    required: true
+    required: false
 runs:
   using: "composite"
   steps:

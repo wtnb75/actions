@@ -3,7 +3,7 @@ description: |
   copy multiple directories for gh-pages
 inputs:
   output:
-    required: true
+    required: false
     description: output directory
     default: publish
   dirs:

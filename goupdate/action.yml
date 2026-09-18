@@ -5,7 +5,7 @@ inputs:
   github-token:
     description: github token
     default: ${{ github.token }}
-    required: true
+    required: false
   go-test-args:
     description: "if set, run `go test <args>` after update; PR is skipped when the test fails"
     required: false

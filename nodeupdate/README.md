@@ -14,17 +14,19 @@ jobs:
     - id: nodeupdate
       uses: wtnb75/actions/nodeupdate@main
       with:
-        github-token: value  # github token (REQUIRED)
+        github-token: value  # github token
         working-directory: value  # directory containing package.json
         test-args: value  # if set, run `pnpm run &lt;args&gt;` after update; PR is skipped when it fails. omit this entirely for repos with no matching script
         reviewers: value  # comma or newline separated GitHub usernames to request as PR reviewers
+        branch: value  # PR branch name
 ```
 
 # Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| github-token | github token | ${{ github.token }} | True |
+| github-token | github token | ${{ github.token }} | False |
 | working-directory | directory containing package.json | . | False |
 | test-args | if set, run `pnpm run &lt;args&gt;` after update; PR is skipped when it fails. omit this entirely for repos with no matching script | n/a | False |
 | reviewers | comma or newline separated GitHub usernames to request as PR reviewers | ${{ github.repository_owner }} | False |
+| branch | PR branch name | chore/update-deps | False |

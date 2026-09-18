@@ -14,11 +14,11 @@ jobs:
     - id: ruff
       uses: wtnb75/actions/ruff@main
       with:
-        dirs: value  # directories (REQUIRED)
+        dirs: value  # directories
 ```
 
 # Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| dirs | directories | . | True |
+| dirs | directories | . | False |

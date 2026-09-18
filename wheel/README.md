@@ -14,7 +14,7 @@ jobs:
     - id: wheel
       uses: wtnb75/actions/wheel@main
       with:
-        output-dir: value  # output directory (REQUIRED)
+        output-dir: value  # output directory
     - run: |
         echo "filename: ${{ steps.wheel.outputs.filename }}"
         echo "hash: ${{ steps.wheel.outputs.hash }}"
@@ -36,7 +36,7 @@ jobs:
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| output-dir | output directory | dist | True |
+| output-dir | output directory | dist | False |
 
 # Outputs
 

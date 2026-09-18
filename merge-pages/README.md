@@ -13,7 +13,7 @@ jobs:
     - id: merge-pages
       uses: wtnb75/actions/merge-pages@main
       with:
-        output: value  # output directory (REQUIRED)
+        output: value  # output directory
         dirs: value  # directories
         pydist: value  # python package directory
   deploy:
@@ -34,7 +34,7 @@ jobs:
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| output | output directory | publish | True |
+| output | output directory | publish | False |
 | dirs | directories | n/a | False |
 | pydist | python package directory | n/a | False |
 

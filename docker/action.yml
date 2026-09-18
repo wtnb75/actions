@@ -4,7 +4,7 @@ description: |
 inputs:
   username:
     description: docker username
-    required: true
+    required: false
     default: ${{ github.actor }}
   password:
     description: docker password
@@ -14,7 +14,7 @@ inputs:
     default: ghcr.io
   image-name:
     description: image name
-    required: true
+    required: false
     default: ${{ github.repository }}
   image-version:
     description: set label

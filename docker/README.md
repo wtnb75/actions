@@ -13,10 +13,10 @@ jobs:
     - id: docker
       uses: wtnb75/actions/docker@main
       with:
-        username: value  # docker username (REQUIRED)
+        username: value  # docker username
         password: value  # docker password (REQUIRED)
         registry: value  # registry hostname
-        image-name: value  # image name (REQUIRED)
+        image-name: value  # image name
         image-version: value  # set label
         context: value  # context directory (REQUIRED)
         build-args: value  # build args
@@ -34,10 +34,10 @@ jobs:
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| username | docker username | ${{ github.actor }} | True |
+| username | docker username | ${{ github.actor }} | False |
 | password | docker password | n/a | True |
 | registry | registry hostname | ghcr.io | False |
-| image-name | image name | ${{ github.repository }} | True |
+| image-name | image name | ${{ github.repository }} | False |
 | image-version | set label | n/a | False |
 | context | context directory | n/a | True |
 | build-args | build args | n/a | False |

@@ -3,7 +3,7 @@ description: upload file to pypi
 inputs:
   username:
     description: pypi username (use `__token__` when authenticating with an API token)
-    required: true
+    required: false
     default: __token__
   password:
     description: pypi password (or API token value when username is `__token__`)
