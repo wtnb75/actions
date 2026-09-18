@@ -10,14 +10,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: cache flutter
-    uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-    with:
-      path: /opt/hostedtoolcache/flutter
-      key: ${{ runner.os }}-flutter-${{ inputs.channel }}
   - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
     with:
       channel: ${{ inputs.channel }}
+      cache: true
   - name: setup project
     run: flutter create .
     shell: bash
