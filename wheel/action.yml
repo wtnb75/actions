@@ -5,7 +5,7 @@ inputs:
   output-dir:
     description: output directory
     default: dist
-    required: true
+    required: false
 outputs:
   filename:
     description: result file name
@@ -21,12 +21,17 @@ runs:
     run: |
       tmpd=$(mktemp -d)
       mkdir -p "$OUTPUT_DIR"
-      uv build --wheel -o $tmpd
-      file=$(ls -1 $tmpd | grep '\.whl$')
+      uv build --wheel -o "$tmpd"
+      file=$(ls -1 "$tmpd" | grep '\.whl$')
+      count=$(echo "$file" | grep -c .)
+      if [ "$count" -ne 1 ]; then
+        echo "::error::expected exactly one .whl file in $tmpd, found $count" >&2
+        exit 1
+      fi
       echo "file=$file" >> "$GITHUB_OUTPUT"
-      echo "hash=sha256:$(sha256sum $tmpd/$file | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-      cp $tmpd/$file "$OUTPUT_DIR"/
-      rm -rf $tmpd
+      echo "hash=sha256:$(sha256sum "$tmpd/$file" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      cp "$tmpd/$file" "$OUTPUT_DIR"/
+      rm -rf "$tmpd"
     shell: bash
     env:
       OUTPUT_DIR: ${{ inputs.output-dir }}

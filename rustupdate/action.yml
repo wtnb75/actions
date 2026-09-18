@@ -5,7 +5,7 @@ inputs:
   github-token:
     description: github token
     default: ${{ github.token }}
-    required: true
+    required: false
   test-args:
     description: "if set, run `cargo test $TEST_ARGS` after update; PR is skipped when the test fails"
     required: false
