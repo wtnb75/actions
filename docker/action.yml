@@ -46,7 +46,7 @@ outputs:
     value: ${{ steps.docker-build.outputs.metadata }}
   image-name:
     description: image name to pull
-    value: ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
+    value: ${{ steps.tag.outputs.ref }}:${{ steps.tag.outputs.tag }}
 runs:
   using: "composite"
   steps:
@@ -59,20 +59,18 @@ runs:
       registry: ${{ inputs.registry }}
       username: ${{ inputs.username }}
       password: ${{ inputs.password }}
-  - name: tag version
-    if: inputs.image-version != ''
-    shell: bash
-    run: |
-      echo LABEL org.opencontainers.image.version=\"$IMAGE_VERSION\" >> "$CONTEXT/Dockerfile"
-    env:
-      IMAGE_VERSION: ${{ inputs.image-version }}
-      CONTEXT: ${{ inputs.context }}
   - id: tag
-    name: sanitize ref name for docker tag
+    name: sanitize ref name and image name for docker tag
     shell: bash
     run: |
       tag=$(echo "${{ github.ref_name }}" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9_.-]#-#g')
+      image=$(echo "$IMAGE_NAME" | tr '[:upper:]' '[:lower:]')
       echo "tag=$tag" >> "$GITHUB_OUTPUT"
+      echo "image=$image" >> "$GITHUB_OUTPUT"
+      echo "ref=$REGISTRY/$image" >> "$GITHUB_OUTPUT"
+    env:
+      IMAGE_NAME: ${{ inputs.image-name }}
+      REGISTRY: ${{ inputs.registry }}
   - id: docker-build
     name: build and push
     uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
@@ -85,17 +83,17 @@ runs:
       labels: |
         org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
         org.opencontainers.image.authors=${{ github.repository_owner }}
-        org.opencontainers.image.base.name=${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
+        org.opencontainers.image.base.name=${{ steps.tag.outputs.ref }}:${{ steps.tag.outputs.tag }}
+        ${{ inputs.image-version != '' && format('org.opencontainers.image.version={0}', inputs.image-version) || '' }}
       tags: |
-        ${{ inputs.registry }}/${{ inputs.image-name }}:${{ steps.tag.outputs.tag }}
-        ${{ inputs.registry }}/${{ inputs.image-name }}:latest
+        ${{ steps.tag.outputs.ref }}:${{ steps.tag.outputs.tag }}
+        ${{ steps.tag.outputs.ref }}:latest
   - name: summary
     run: |
       cat <<EOF >> $GITHUB_STEP_SUMMARY
-        - docker pull $REGISTRY/$IMAGE_NAME:${{ steps.tag.outputs.tag }}
+        - docker pull $REF:${{ steps.tag.outputs.tag }}
         - image-id: ${{ steps.docker-build.outputs.imageid }}
       EOF
     shell: bash
     env:
-      REGISTRY: ${{ inputs.registry }}
-      IMAGE_NAME: ${{ inputs.image-name }}
+      REF: ${{ steps.tag.outputs.ref }}
