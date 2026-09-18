@@ -13,6 +13,10 @@ inputs:
     description: actions-validator version
     default: v0.5.3
     required: true
+  sha256:
+    description: expected sha256 checksum of the action-validator_linux_amd64 binary for the pinned version
+    default: deaa5dc8c6d3f3498c83b0d01c610ac430034d803746af056bd3b0041ad14781
+    required: true
 runs:
   using: "composite"
   steps:
@@ -20,11 +24,13 @@ runs:
     shell: bash
     run: |
       tmpd=$(mktemp -d)
-      curl -L -o $tmpd/action-validator \
+      curl -L -o "$tmpd/action-validator" \
         "$REPO/releases/download/$VERSION/action-validator_linux_amd64"
-      chmod +x $tmpd/action-validator
-      $tmpd/action-validator $FILES
+      echo "$SHA256  $tmpd/action-validator" | sha256sum -c -
+      chmod +x "$tmpd/action-validator"
+      "$tmpd/action-validator" $FILES
     env:
       REPO: ${{ inputs.repo }}
       VERSION: ${{ inputs.version }}
       FILES: ${{ inputs.files }}
+      SHA256: ${{ inputs.sha256 }}
