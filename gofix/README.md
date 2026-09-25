@@ -15,6 +15,7 @@ jobs:
       uses: wtnb75/actions/gofix@main
       with:
         github-token: value  # github token
+        go-fix-args: value  # options passed to `go fix`
         go-test-args: value  # if set, run `go test &lt;args&gt;` after fix; PR is skipped when the test fails
         reviewers: value  # comma or newline separated GitHub usernames to request as PR reviewers
         branch: value  # PR branch name
@@ -25,6 +26,7 @@ jobs:
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | github-token | github token | ${{ github.token }} | False |
+| go-fix-args | options passed to `go fix` | n/a | False |
 | go-test-args | if set, run `go test &lt;args&gt;` after fix; PR is skipped when the test fails | n/a | False |
 | reviewers | comma or newline separated GitHub usernames to request as PR reviewers | ${{ github.repository_owner }} | False |
 | branch | PR branch name | chore/go-fix | False |
