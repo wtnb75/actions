@@ -27,6 +27,19 @@ runs:
     shell: bash
     env:
       GO_FIX_ARGS: ${{ inputs.go-fix-args }}
+  - name: gofmt
+    shell: bash
+    run: |
+      fmt_out=$(gofmt -l .)
+      if [ -n "$fmt_out" ]; then
+        echo "The following files are not formatted:" >&2
+        echo "$fmt_out" >&2
+        exit 1
+      fi
+  - name: go vet
+    run: go vet ./...
+    shell: bash
+  - uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
   - name: test
     if: inputs.go-test-args != ''
     run: go test $GO_TEST_ARGS
