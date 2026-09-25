@@ -15,7 +15,10 @@ runs:
   - name: test (default)
     id: test
     continue-on-error: true
-    run: go test -v ./... -coverprofile=cover.out -covermode=atomic -coverpkg=./... -json | tee report.json | jq -j 'select(.Output != null) | .Output'
+    run: |
+      go test -v ./... -coverprofile=cover.out -covermode=atomic -coverpkg=./... -json | \
+        tee report.json | \
+        jq -j 'select(.Output != null) | .Output'
     shell: bash
   - name: test (extra build tags)
     id: test-tags
@@ -26,7 +29,9 @@ runs:
       set +e
       fail=0
       for t in $TAGS; do
-        go test -tags "$t" -v ./... -coverprofile=cover.out.$t -covermode=atomic -coverpkg=./... -json | tee -a report.json | jq -j 'select(.Output != null) | .Output'
+        go test -tags "$t" -v ./... -coverprofile=cover.out.$t -covermode=atomic -coverpkg=./... -json | \
+          tee -a report.json | \
+          jq -j 'select(.Output != null) | .Output'
         [ $? -ne 0 ] && fail=1
         tail -q -n +2 cover.out.$t >> cover.out
       done
