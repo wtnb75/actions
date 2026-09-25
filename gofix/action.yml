@@ -6,6 +6,9 @@ inputs:
     description: github token
     default: ${{ github.token }}
     required: false
+  go-fix-args:
+    description: "options passed to `go fix`"
+    required: false
   go-test-args:
     description: "if set, run `go test <args>` after fix; PR is skipped when the test fails"
     required: false
@@ -20,8 +23,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - run: go fix ./...
+  - run: go fix $GO_FIX_ARGS ./...
     shell: bash
+    env:
+      GO_FIX_ARGS: ${{ inputs.go-fix-args }}
   - name: test
     if: inputs.go-test-args != ''
     run: go test $GO_TEST_ARGS
