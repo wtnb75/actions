@@ -16,6 +16,18 @@ jobs:
       with:
         tags: value  # space-separated build tags to test additionally (e.g. &#39;wasmer wasmtime docker wazero&#39;)
         html-output-dir: value  # coverage HTML report output directory
+  use-artifact:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: go-test-report
+        path: path/to/artifact
+    - name: show files in go-test-report
+      run: ls -lR
+      working-directory: path/to/artifact
+      shell: bash
 ```
 
 # Inputs
@@ -24,3 +36,9 @@ jobs:
 |------|-------------|---------|----------|
 | tags | space-separated build tags to test additionally (e.g. &#39;wasmer wasmtime docker wazero&#39;) | n/a | False |
 | html-output-dir | coverage HTML report output directory | coverage | False |
+
+# Artifacts
+
+| Name | Description |
+|------|-------------|
+| go-test-report | test report data |
