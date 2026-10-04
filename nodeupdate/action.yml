@@ -26,6 +26,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+  - name: snapshot dependencies (before)
+    continue-on-error: true
+    run: |
+      ${{ github.action_path }}/../tools/dep-diff.sh snapshot node pnpm-lock.yaml > "$RUNNER_TEMP/deps-before.next.txt"
+      mv "$RUNNER_TEMP/deps-before.next.txt" "$RUNNER_TEMP/deps-before.txt"
+    shell: bash
+    working-directory: ${{ inputs.working-directory }}
   - run: pnpm update -r
     shell: bash
     working-directory: ${{ inputs.working-directory }}
@@ -40,12 +47,24 @@ runs:
     working-directory: ${{ inputs.working-directory }}
     env:
       TEST_ARGS: ${{ inputs.test-args }}
+  - name: build PR body
+    continue-on-error: true
+    run: |
+      tool=${{ github.action_path }}/../tools/dep-diff.sh
+      tmp=$RUNNER_TEMP
+      "$tool" fallback "Node dependency updates" > "$tmp/pr-body.md"
+      "$tool" snapshot node pnpm-lock.yaml > "$tmp/deps-after.txt"
+      "$tool" diff "$tmp/deps-before.txt" "$tmp/deps-after.txt" "Node dependency updates" > "$tmp/pr-body.next.md"
+      mv "$tmp/pr-body.next.md" "$tmp/pr-body.md"
+    shell: bash
+    working-directory: ${{ inputs.working-directory }}
   - name: Create PR
     uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:
       token: ${{ inputs.github-token }}
       commit-message: "chore(deps): update node dependencies"
       title: "chore(deps): update node dependencies"
+      body-path: ${{ runner.temp }}/pr-body.md
       branch: ${{ inputs.branch }}
       delete-branch: true
       reviewers: ${{ inputs.reviewers }}

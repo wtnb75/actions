@@ -46,12 +46,28 @@ runs:
     shell: bash
     env:
       GO_TEST_ARGS: ${{ inputs.go-test-args }}
+  - name: build PR body
+    continue-on-error: true
+    shell: bash
+    run: |
+      printf '## go fix\n\nPlease check the file changes in this PR.\n' > "$RUNNER_TEMP/pr-body.md"
+      {
+        echo "## go fix"
+        echo
+        echo "Files rewritten by \`go fix $GO_FIX_ARGS ./...\`:"
+        echo
+        git diff --name-only | sed 's/^/- `/; s/$/`/'
+      } > "$RUNNER_TEMP/pr-body.next.md"
+      mv "$RUNNER_TEMP/pr-body.next.md" "$RUNNER_TEMP/pr-body.md"
+    env:
+      GO_FIX_ARGS: ${{ inputs.go-fix-args }}
   - name: Create PR
     uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:
       token: ${{ inputs.github-token }}
       commit-message: "go fix"
       title: 'auto go fix'
+      body-path: ${{ runner.temp }}/pr-body.md
       branch: ${{ inputs.branch }}
       delete-branch: true
       reviewers: ${{ inputs.reviewers }}

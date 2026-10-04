@@ -24,6 +24,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+  - name: snapshot dependencies (before)
+    continue-on-error: true
+    run: |
+      ${{ github.action_path }}/../tools/dep-diff.sh snapshot toml uv.lock > "$RUNNER_TEMP/deps-before.next.txt"
+      mv "$RUNNER_TEMP/deps-before.next.txt" "$RUNNER_TEMP/deps-before.txt"
+    shell: bash
   - run: uv lock --upgrade
     shell: bash
   - name: ruff check
@@ -42,12 +48,23 @@ runs:
     shell: bash
     env:
       TEST_ARGS: ${{ inputs.test-args }}
+  - name: build PR body
+    continue-on-error: true
+    run: |
+      tool=${{ github.action_path }}/../tools/dep-diff.sh
+      tmp=$RUNNER_TEMP
+      "$tool" fallback "Python dependency updates" > "$tmp/pr-body.md"
+      "$tool" snapshot toml uv.lock > "$tmp/deps-after.txt"
+      "$tool" diff "$tmp/deps-before.txt" "$tmp/deps-after.txt" "Python dependency updates" > "$tmp/pr-body.next.md"
+      mv "$tmp/pr-body.next.md" "$tmp/pr-body.md"
+    shell: bash
   - name: Create PR
     uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:
       token: ${{ inputs.github-token }}
       commit-message: Update Python Dependencies
       title: 'auto update dependencies'
+      body-path: ${{ runner.temp }}/pr-body.md
       branch: ${{ inputs.branch }}
       delete-branch: true
       reviewers: ${{ inputs.reviewers }}
