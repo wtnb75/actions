@@ -20,6 +20,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+  - name: snapshot dependencies (before)
+    continue-on-error: true
+    run: |
+      ${{ github.action_path }}/../tools/dep-diff.sh snapshot toml Cargo.lock > "$RUNNER_TEMP/deps-before.next.txt"
+      mv "$RUNNER_TEMP/deps-before.next.txt" "$RUNNER_TEMP/deps-before.txt"
+    shell: bash
   - run: cargo install cargo-edit --version 0.13.13 --locked
     shell: bash
   - run: cargo upgrade --incompatible allow
@@ -30,12 +36,22 @@ runs:
     shell: bash
     env:
       TEST_ARGS: ${{ inputs.test-args }}
+  - name: build PR body
+    continue-on-error: true
+    run: |
+      tool=${{ github.action_path }}/../tools/dep-diff.sh
+      "$tool" fallback "Rust dependency updates" > "$RUNNER_TEMP/pr-body.md"
+      "$tool" snapshot toml Cargo.lock > "$RUNNER_TEMP/deps-after.txt"
+      "$tool" diff "$RUNNER_TEMP/deps-before.txt" "$RUNNER_TEMP/deps-after.txt" "Rust dependency updates" > "$RUNNER_TEMP/pr-body.next.md"
+      mv "$RUNNER_TEMP/pr-body.next.md" "$RUNNER_TEMP/pr-body.md"
+    shell: bash
   - name: Create PR
     uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
     with:
       token: ${{ inputs.github-token }}
       commit-message: Update Rust Dependencies
       title: 'auto update dependencies'
+      body-path: ${{ runner.temp }}/pr-body.md
       branch: ${{ inputs.branch }}
       delete-branch: true
       reviewers: ${{ inputs.reviewers }}
