@@ -51,10 +51,11 @@ runs:
     continue-on-error: true
     run: |
       tool=${{ github.action_path }}/../tools/dep-diff.sh
-      "$tool" fallback "Node dependency updates" > "$RUNNER_TEMP/pr-body.md"
-      "$tool" snapshot node pnpm-lock.yaml > "$RUNNER_TEMP/deps-after.txt"
-      "$tool" diff "$RUNNER_TEMP/deps-before.txt" "$RUNNER_TEMP/deps-after.txt" "Node dependency updates" > "$RUNNER_TEMP/pr-body.next.md"
-      mv "$RUNNER_TEMP/pr-body.next.md" "$RUNNER_TEMP/pr-body.md"
+      tmp=$RUNNER_TEMP
+      "$tool" fallback "Node dependency updates" > "$tmp/pr-body.md"
+      "$tool" snapshot node pnpm-lock.yaml > "$tmp/deps-after.txt"
+      "$tool" diff "$tmp/deps-before.txt" "$tmp/deps-after.txt" "Node dependency updates" > "$tmp/pr-body.next.md"
+      mv "$tmp/pr-body.next.md" "$tmp/pr-body.md"
     shell: bash
     working-directory: ${{ inputs.working-directory }}
   - name: Create PR

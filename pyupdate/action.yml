@@ -52,10 +52,11 @@ runs:
     continue-on-error: true
     run: |
       tool=${{ github.action_path }}/../tools/dep-diff.sh
-      "$tool" fallback "Python dependency updates" > "$RUNNER_TEMP/pr-body.md"
-      "$tool" snapshot toml uv.lock > "$RUNNER_TEMP/deps-after.txt"
-      "$tool" diff "$RUNNER_TEMP/deps-before.txt" "$RUNNER_TEMP/deps-after.txt" "Python dependency updates" > "$RUNNER_TEMP/pr-body.next.md"
-      mv "$RUNNER_TEMP/pr-body.next.md" "$RUNNER_TEMP/pr-body.md"
+      tmp=$RUNNER_TEMP
+      "$tool" fallback "Python dependency updates" > "$tmp/pr-body.md"
+      "$tool" snapshot toml uv.lock > "$tmp/deps-after.txt"
+      "$tool" diff "$tmp/deps-before.txt" "$tmp/deps-after.txt" "Python dependency updates" > "$tmp/pr-body.next.md"
+      mv "$tmp/pr-body.next.md" "$tmp/pr-body.md"
     shell: bash
   - name: Create PR
     uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
